@@ -1,0 +1,29 @@
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Dependencies (for future use)
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+
+# Build outputs (for future use)
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Personal test data
+test-data/
