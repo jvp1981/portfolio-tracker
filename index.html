@@ -25,30 +25,36 @@
     <main class="container">
         
         <!-- Portfolio Summary Cards -->
-        <section class="summary-section">
-            <div class="card summary-card">
-                <h3>Total Value</h3>
-                <p class="metric-value" id="totalValue">$0.00</p>
-                <p class="metric-change" id="totalChange">+$0.00 (0%)</p>
-            </div>
-            
-            <div class="card summary-card">
-                <h3>Total Invested</h3>
-                <p class="metric-value" id="totalInvested">$0.00</p>
-            </div>
-            
-            <div class="card summary-card">
-                <h3>Total Return</h3>
-                <p class="metric-value" id="totalReturn">0%</p>
-                <p class="metric-change" id="returnAmount">+$0.00</p>
-            </div>
-            
-            <div class="card summary-card">
-                <h3>Holdings</h3>
-                <p class="metric-value" id="totalHoldings">0</p>
-                <p class="metric-label">positions</p>
-            </div>
-        </section>
+                <section class="summary-section">
+                    <div class="card summary-card">
+                        <h3>Total Value</h3>
+                        <p class="metric-value" id="totalValue">$0.00</p>
+                        <p class="metric-change" id="totalChange">+$0.00 (0%)</p>
+                    </div>
+                    
+                    <div class="card summary-card">
+                        <h3>Total Invested</h3>
+                        <p class="metric-value" id="totalInvested">$0.00</p>
+                    </div>
+                    
+                    <div class="card summary-card">
+                        <h3>Total Return</h3>
+                        <p class="metric-value" id="totalReturn">0%</p>
+                        <p class="metric-change" id="returnAmount">+$0.00</p>
+                    </div>
+                    
+                    <div class="card summary-card">
+                        <h3>Holdings</h3>
+                        <p class="metric-value" id="totalHoldings">0</p>
+                        <p class="metric-label">positions</p>
+                    </div>
+                    
+                    <div class="card summary-card">
+                        <h3>Leverage</h3>
+                        <p class="metric-value" id="leverageValue">0%</p>
+                        <p class="metric-label" id="leverageLabel">No debt</p>
+                    </div>
+                </section>
 
         <!-- Charts Section -->
         <section class="charts-section">
@@ -113,12 +119,13 @@
                             <label for="assetClass">Asset Class</label>
                             <select id="assetClass" name="assetClass" required>
                                 <option value="">Select...</option>
-                                <option value="stocks">Stocks</option>
-                                <option value="crypto">Cryptocurrency</option>
-                                <option value="etf">ETF</option>
-                                <option value="bonds">Bonds</option>
-                                <option value="commodities">Commodities</option>
-                                <option value="other">Other</option>
+                                    <option value="stocks">Stocks</option>
+                                    <option value="crypto">Cryptocurrency</option>
+                                    <option value="etf">ETF</option>
+                                    <option value="bonds">Bonds</option>
+                                    <option value="commodities">Commodities</option>
+                                    <option value="loan">Loan / Debt</option>
+                                    <option value="other">Other</option>
                             </select>
                         </div>
                     </div>

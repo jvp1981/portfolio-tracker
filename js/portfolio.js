@@ -64,10 +64,11 @@ class PortfolioManager {
         return this.positions;
     }
 
-    // Get current price (mock data for MVP - will be API later)
+// Get current price (mock data for MVP - will be API later)
     getCurrentPrice(ticker) {
         // Mock price data - simulates price movement
         const mockPrices = {
+            // Tech Stocks
             'AAPL': 178.50,
             'GOOGL': 142.30,
             'MSFT': 378.90,
@@ -75,12 +76,45 @@ class PortfolioManager {
             'META': 485.60,
             'TSLA': 248.70,
             'NVDA': 495.30,
+            'AMD': 178.40,
+            'NFLX': 485.20,
+            'ORCL': 112.30,
+            
+            // Finance
+            'JPM': 168.50,
+            'BAC': 34.20,
+            'GS': 385.40,
+            'MS': 92.30,
+            'V': 265.80,
+            
+            // Crypto
             'BTC-USD': 43250.00,
             'ETH-USD': 2280.50,
+            'SOL-USD': 98.30,
+            'BNB-USD': 315.40,
+            
+            // ETFs
             'SPY': 478.90,
             'QQQ': 408.20,
+            'IWM': 198.50,
+            'VTI': 235.60,
+            'VOO': 442.30,
+            'DIA': 385.70,
+            
+            // Commodities
             'GLD': 198.40,
-            'TLT': 92.30
+            'SLV': 22.80,
+            'USO': 75.30,
+            
+            // Bonds
+            'TLT': 92.30,
+            'IEF': 98.50,
+            'AGG': 101.20,
+            
+            // International
+            'EEM': 41.20,
+            'VEA': 48.90,
+            'VWO': 42.30
         };
 
         // If we have a mock price, add random fluctuation ±3%
@@ -101,43 +135,67 @@ class PortfolioManager {
     }
 
     // Calculate portfolio metrics
-    calculateMetrics() {
-        let totalInvested = 0;
-        let totalCurrentValue = 0;
-        const positionsWithValues = [];
+        calculateMetrics() {
+            let totalInvested = 0;
+            let totalCurrentValue = 0;
+            let totalDebt = 0;
+            const positionsWithValues = [];
 
-        this.positions.forEach(position => {
-            const currentPrice = this.getCurrentPrice(position.ticker);
-            const costBasis = position.shares * position.purchasePrice;
-            const currentValue = position.shares * currentPrice;
-            const gainLoss = currentValue - costBasis;
-            const returnPct = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0;
+            this.positions.forEach(position => {
+                let currentPrice, costBasis, currentValue, gainLoss, returnPct;
+                
+                // Special handling for Loans
+                if (position.assetClass === 'loan') {
+                    // For loans, use the purchase price as-is (should be negative)
+                    // No price fluctuation for loans
+                    currentPrice = position.purchasePrice;
+                    costBasis = position.shares * position.purchasePrice;
+                    currentValue = costBasis; // Loans don't appreciate
+                    gainLoss = 0; // No gain/loss on debt
+                    returnPct = 0;
+                    
+                    totalDebt += Math.abs(costBasis); // Track total debt
+                } else {
+                    // Normal assets
+                    currentPrice = this.getCurrentPrice(position.ticker);
+                    costBasis = position.shares * position.purchasePrice;
+                    currentValue = position.shares * currentPrice;
+                    gainLoss = currentValue - costBasis;
+                    returnPct = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0;
+                }
 
-            totalInvested += costBasis;
-            totalCurrentValue += currentValue;
+                totalInvested += costBasis;
+                totalCurrentValue += currentValue;
 
-            positionsWithValues.push({
-                ...position,
-                currentPrice: currentPrice,
-                costBasis: costBasis,
-                currentValue: currentValue,
-                gainLoss: gainLoss,
-                returnPct: returnPct
+                positionsWithValues.push({
+                    ...position,
+                    currentPrice: currentPrice,
+                    costBasis: costBasis,
+                    currentValue: currentValue,
+                    gainLoss: gainLoss,
+                    returnPct: returnPct
+                });
             });
-        });
 
-        const totalGainLoss = totalCurrentValue - totalInvested;
-        const totalReturnPct = totalInvested > 0 ? (totalGainLoss / totalInvested) * 100 : 0;
+            const totalGainLoss = totalCurrentValue - totalInvested;
+            const totalReturnPct = totalInvested > 0 ? (totalGainLoss / totalInvested) * 100 : 0;
+            
+            // Calculate leverage
+            const netWorth = totalCurrentValue;
+            const leveragePct = netWorth > 0 ? (totalDebt / netWorth) * 100 : 0;
 
-        return {
-            totalInvested,
-            totalCurrentValue,
-            totalGainLoss,
-            totalReturnPct,
-            positions: positionsWithValues,
-            holdingsCount: this.positions.length
-        };
-    }
+            return {
+                totalInvested,
+                totalCurrentValue,
+                totalGainLoss,
+                totalReturnPct,
+                totalDebt,
+                netWorth,
+                leveragePct,
+                positions: positionsWithValues,
+                holdingsCount: this.positions.length
+            };
+        }
 
     // Get asset allocation
     getAssetAllocation() {
@@ -160,68 +218,6 @@ class PortfolioManager {
         return metrics.positions
             .sort((a, b) => b.currentValue - a.currentValue)
             .slice(0, limit);
-    }
-
-    // Export portfolio to JSON
-    exportToJSON() {
-        const exportData = {
-            exportDate: new Date().toISOString(),
-            version: '1.0',
-            appName: 'Portfolio Tracker',
-            positions: this.positions
-        };
-        return JSON.stringify(exportData, null, 2);
-    }
-
-    // Import portfolio from JSON
-    importFromJSON(jsonString, mode = 'replace') {
-        try {
-            const importData = JSON.parse(jsonString);
-            
-            // Validate structure
-            if (!importData.positions || !Array.isArray(importData.positions)) {
-                throw new Error('Invalid portfolio format: missing positions array');
-            }
-
-            // Validate each position
-            importData.positions.forEach((pos, index) => {
-                if (!pos.ticker || pos.shares === undefined || pos.purchasePrice === undefined) {
-                    throw new Error(`Invalid position at index ${index}: missing required fields`);
-                }
-                if (typeof pos.shares !== 'number' || typeof pos.purchasePrice !== 'number') {
-                    throw new Error(`Invalid position at index ${index}: invalid data types`);
-                }
-            });
-
-            // Import based on mode
-            if (mode === 'replace') {
-                this.positions = importData.positions;
-            } else if (mode === 'merge') {
-                // Add positions that don't already exist
-                importData.positions.forEach(newPos => {
-                    const exists = this.positions.some(p => 
-                        p.ticker === newPos.ticker && 
-                        p.purchasePrice === newPos.purchasePrice
-                    );
-                    if (!exists) {
-                        this.positions.push(newPos);
-                    }
-                });
-            }
-
-            this.saveToStorage();
-            return {
-                success: true,
-                imported: importData.positions.length,
-                total: this.positions.length
-            };
-
-        } catch (error) {
-            return {
-                success: false,
-                error: error.message
-            };
-        }
     }
 }
 

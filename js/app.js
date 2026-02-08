@@ -98,33 +98,60 @@ class App {
     }
 
     renderSummary() {
-        const metrics = portfolioManager.calculateMetrics();
-        
-        // Total Value
-        document.getElementById('totalValue').textContent = 
-            this.formatCurrency(metrics.totalCurrentValue);
-        
-        const changeEl = document.getElementById('totalChange');
-        changeEl.textContent = 
-            `${metrics.totalGainLoss >= 0 ? '+' : ''}${this.formatCurrency(metrics.totalGainLoss)} (${metrics.totalReturnPct.toFixed(2)}%)`;
-        changeEl.className = `metric-change ${metrics.totalGainLoss >= 0 ? 'positive' : 'negative'}`;
-        
-        // Total Invested
-        document.getElementById('totalInvested').textContent = 
-            this.formatCurrency(metrics.totalInvested);
-        
-        // Total Return
-        document.getElementById('totalReturn').textContent = 
-            `${metrics.totalReturnPct >= 0 ? '+' : ''}${metrics.totalReturnPct.toFixed(2)}%`;
-        
-        const returnAmountEl = document.getElementById('returnAmount');
-        returnAmountEl.textContent = 
-            `${metrics.totalGainLoss >= 0 ? '+' : ''}${this.formatCurrency(metrics.totalGainLoss)}`;
-        returnAmountEl.className = `metric-change ${metrics.totalGainLoss >= 0 ? 'positive' : 'negative'}`;
-        
-        // Holdings Count
-        document.getElementById('totalHoldings').textContent = metrics.holdingsCount;
-    }
+            const metrics = portfolioManager.calculateMetrics();
+            
+            // Total Value
+            document.getElementById('totalValue').textContent = 
+                this.formatCurrency(metrics.totalCurrentValue);
+            
+            const changeEl = document.getElementById('totalChange');
+            changeEl.textContent = 
+                `${metrics.totalGainLoss >= 0 ? '+' : ''}${this.formatCurrency(metrics.totalGainLoss)} (${metrics.totalReturnPct.toFixed(2)}%)`;
+            changeEl.className = `metric-change ${metrics.totalGainLoss >= 0 ? 'positive' : 'negative'}`;
+            
+            // Total Invested
+            document.getElementById('totalInvested').textContent = 
+                this.formatCurrency(metrics.totalInvested);
+            
+            // Total Return
+            document.getElementById('totalReturn').textContent = 
+                `${metrics.totalReturnPct >= 0 ? '+' : ''}${metrics.totalReturnPct.toFixed(2)}%`;
+            
+            const returnAmountEl = document.getElementById('returnAmount');
+            returnAmountEl.textContent = 
+                `${metrics.totalGainLoss >= 0 ? '+' : ''}${this.formatCurrency(metrics.totalGainLoss)}`;
+            returnAmountEl.className = `metric-change ${metrics.totalGainLoss >= 0 ? 'positive' : 'negative'}`;
+            
+            // Holdings Count
+            document.getElementById('totalHoldings').textContent = metrics.holdingsCount;
+            
+            // Leverage
+            const leverageEl = document.getElementById('leverageValue');
+            const leverageLabelEl = document.getElementById('leverageLabel');
+            
+            if (metrics.totalDebt > 0) {
+                leverageEl.textContent = `${metrics.leveragePct.toFixed(1)}%`;
+                
+                // Color coding and label based on leverage level
+                if (metrics.leveragePct < 20) {
+                    leverageEl.className = 'metric-value';
+                    leverageLabelEl.textContent = '🟢 Low';
+                    leverageLabelEl.className = 'metric-label';
+                } else if (metrics.leveragePct < 50) {
+                    leverageEl.className = 'metric-value';
+                    leverageLabelEl.textContent = '🟡 Medium';
+                    leverageLabelEl.className = 'metric-label';
+                } else {
+                    leverageEl.className = 'metric-value';
+                    leverageLabelEl.textContent = '🔴 High';
+                    leverageLabelEl.className = 'metric-label';
+                }
+            } else {
+                leverageEl.textContent = '0%';
+                leverageLabelEl.textContent = 'No debt';
+                leverageLabelEl.className = 'metric-label';
+            }
+        }
 
     renderHoldingsTable() {
         const metrics = portfolioManager.calculateMetrics();

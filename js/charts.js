@@ -5,13 +5,22 @@
 
 class ChartsManager {
     constructor() {
-        this.allocationChart = null;
-        this.holdingsChart = null;
-        this.chartColors = [
-            '#2563eb', '#10b981', '#f59e0b', '#ef4444', 
-            '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'
-        ];
-    }
+            this.allocationChart = null;
+            this.holdingsChart = null;
+            
+            // Color mapping by asset class
+            this.assetColors = {
+                'stocks': '#2563eb',      // Blue
+                'crypto': '#10b981',      // Green
+                'commodities': '#f59e0b', // Orange
+                'etf': '#8b5cf6',         // Purple (changed from red)
+                'bonds': '#ec4899',       // Pink
+                'loan': '#ef4444',        // Red (reserved for debt)
+                'other': '#06b6d4'        // Cyan
+            };
+            
+            this.chartColors = Object.values(this.assetColors);
+        }
 
     // Initialize charts
     init() {
@@ -110,30 +119,50 @@ class ChartsManager {
     }
 
     // Update allocation chart
-    updateAllocationChart(allocation) {
-        if (!this.allocationChart) return;
+        updateAllocationChart(allocation) {
+            if (!this.allocationChart) return;
 
-        const labels = Object.keys(allocation).map(key => 
-            key.charAt(0).toUpperCase() + key.slice(1)
-        );
-        const data = Object.values(allocation);
+            // Filter out loans (negative values) - we'll show them separately
+            const positiveAllocation = {};
+            Object.keys(allocation).forEach(assetClass => {
+                if (allocation[assetClass] > 0) {
+                    positiveAllocation[assetClass] = allocation[assetClass];
+                }
+            });
 
-        this.allocationChart.data.labels = labels;
-        this.allocationChart.data.datasets[0].data = data;
-        this.allocationChart.update();
-    }
+            const labels = Object.keys(positiveAllocation).map(key => 
+                key.charAt(0).toUpperCase() + key.slice(1)
+            );
+            const data = Object.values(positiveAllocation);
+            
+            // Map colors to asset classes
+            const colors = Object.keys(positiveAllocation).map(assetClass => 
+                this.assetColors[assetClass] || '#06b6d4'
+            );
+
+            this.allocationChart.data.labels = labels;
+            this.allocationChart.data.datasets[0].data = data;
+            this.allocationChart.data.datasets[0].backgroundColor = colors;
+            this.allocationChart.update();
+        }
 
     // Update holdings chart
-    updateHoldingsChart(topHoldings) {
-        if (!this.holdingsChart) return;
+        updateHoldingsChart(topHoldings) {
+            if (!this.holdingsChart) return;
 
-        const labels = topHoldings.map(h => h.ticker);
-        const data = topHoldings.map(h => h.currentValue);
+            const labels = topHoldings.map(h => h.ticker);
+            const data = topHoldings.map(h => h.currentValue);
+            
+            // Color bars by asset class
+            const colors = topHoldings.map(h => 
+                this.assetColors[h.assetClass] || '#06b6d4'
+            );
 
-        this.holdingsChart.data.labels = labels;
-        this.holdingsChart.data.datasets[0].data = data;
-        this.holdingsChart.update();
-    }
+            this.holdingsChart.data.labels = labels;
+            this.holdingsChart.data.datasets[0].data = data;
+            this.holdingsChart.data.datasets[0].backgroundColor = colors;
+            this.holdingsChart.update();
+        }
 
     // Refresh all charts
     refresh() {
