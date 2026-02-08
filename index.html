@@ -139,13 +139,17 @@
         <section class="holdings-section">
             <div class="card">
                 <div class="holdings-header">
-       <h3>Portfolio Holdings</h3>
-       <div class="holdings-actions">
-           <button id="exportPortfolio" class="btn btn-primary">📥 Export</button>
-           <button id="importPortfolio" class="btn btn-primary">📤 Import</button>
-           <button id="clearPortfolio" class="btn btn-secondary">Clear All</button>
-       </div>
-   </div>
+                    <div>
+                        <h3>Portfolio Holdings</h3>
+                        <p class="last-updated" id="lastUpdated">Last updated: --:--:--</p>
+                    </div>
+                    <div class="holdings-actions">
+                        <button id="refreshPrices" class="btn btn-primary">🔄 Refresh Prices</button>
+                        <button id="exportPortfolio" class="btn btn-primary">📥 Export</button>
+                        <button id="importPortfolio" class="btn btn-primary">📤 Import</button>
+                        <button id="clearPortfolio" class="btn btn-secondary">Clear All</button>
+                    </div>
+                </div>
    
    <!-- Hidden file input for import -->
    <input type="file" id="importFileInput" accept=".json" style="display: none;">

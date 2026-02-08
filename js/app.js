@@ -20,6 +20,10 @@ class App {
         // Initial render
         this.render();
         
+        // Update timestamp every second
+                setInterval(() => {
+                    this.updateLastUpdated();
+                }, 1000);
         console.log('✅ Portfolio Tracker ready!');
     }
 
@@ -35,6 +39,12 @@ class App {
         if (clearBtn) {
             clearBtn.addEventListener('click', () => this.handleClearPortfolio());
         }
+
+        // Refresh prices button
+                const refreshBtn = document.getElementById('refreshPrices');
+                if (refreshBtn) {
+                    refreshBtn.addEventListener('click', () => this.handleRefreshPrices());
+                }
 
         // Export portfolio button
         const exportBtn = document.getElementById('exportPortfolio');
@@ -76,26 +86,86 @@ class App {
     }
 
     handleRemovePosition(id) {
-        if (confirm('Are you sure you want to remove this position?')) {
-            portfolioManager.removePosition(id);
-            this.render();
-            console.log(`🗑️ Removed position`);
-        }
-    }
+            // Find the position to get details
+            const position = portfolioManager.getPositions().find(p => p.id === id);
+            
+            if (!position) {
+                alert('Position not found');
+                return;
+            }
+            
+            // Calculate current value
+            const metrics = portfolioManager.calculateMetrics();
+            const positionWithValue = metrics.positions.find(p => p.id === id);
+            
+            // Build confirmation message
+            const message = `Delete ${position.ticker}?
 
-    handleClearPortfolio() {
-        if (confirm('Are you sure you want to clear ALL positions? This cannot be undone.')) {
-            portfolioManager.clearAll();
-            this.render();
-            console.log('🗑️ Portfolio cleared');
-        }
-    }
+    This will remove:
+    - ${this.formatNumber(position.shares)} shares
+    - Current value: ${this.formatCurrency(positionWithValue.currentValue)}
+    - ${positionWithValue.gainLoss >= 0 ? 'Gain' : 'Loss'}: ${this.formatCurrency(Math.abs(positionWithValue.gainLoss))}
 
-    render() {
-        this.renderSummary();
-        this.renderHoldingsTable();
-        chartsManager.refresh();
-    }
+    This action cannot be undone.`;
+            
+            if (confirm(message)) {
+                portfolioManager.removePosition(id);
+                this.render();
+                console.log(`🗑️ Removed position: ${position.ticker}`);
+            }
+        }
+
+        handleClearPortfolio() {
+                const metrics = portfolioManager.calculateMetrics();
+                const count = metrics.holdingsCount;
+                
+                if (count === 0) {
+                    alert('Portfolio is already empty');
+                    return;
+                }
+                
+                const message = `Clear ALL positions?
+
+        This will permanently delete:
+        - ${count} position${count > 1 ? 's' : ''}
+        - Total value: ${this.formatCurrency(metrics.totalCurrentValue)}
+
+        This action cannot be undone.`;
+                
+                if (confirm(message)) {
+                    portfolioManager.clearAll();
+                    this.render();
+                    console.log('🗑️ Portfolio cleared');
+                }
+            }
+
+    handleRefreshPrices() {
+            // Simply re-render - getCurrentPrice() generates new random prices
+            this.render();
+            
+            // Optional: Show feedback
+            console.log('🔄 Prices refreshed');
+            
+            // Optional: Brief visual feedback
+            const btn = document.getElementById('refreshPrices');
+            if (btn) {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Refreshed!';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 1000);
+            }
+        }
+
+        render() {
+                this.renderSummary();
+                this.renderHoldingsTable();
+                chartsManager.refresh();
+                this.updateLastUpdated();
+            }
 
     renderSummary() {
             const metrics = portfolioManager.calculateMetrics();
@@ -216,6 +286,24 @@ class App {
 
     formatAssetClass(assetClass) {
         return assetClass.charAt(0).toUpperCase() + assetClass.slice(1);
+    }
+    formatAssetClass(assetClass) {
+        return assetClass.charAt(0).toUpperCase() + assetClass.slice(1);
+    }
+
+    updateLastUpdated() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { 
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        
+        const lastUpdatedEl = document.getElementById('lastUpdated');
+        if (lastUpdatedEl) {
+            lastUpdatedEl.textContent = `Last updated: ${timeString}`;
+        }
     }
     handleExportPortfolio() {
         try {
