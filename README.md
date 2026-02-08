@@ -6,7 +6,19 @@ A personal investment portfolio tracking dashboard with analytics and AI-powered
 
 This is a progressive web application designed to help investors track, analyze, and optimize their investment portfolios. Built as a learning project to master modern web development with LLM-assisted coding.
 
-## 🚀 Current Version: v1.0 MVP
+## 🚀 Current Version: v1.2.0
+
+**Latest Updates:**
+- ✅ Real-time prices via Alpha Vantage API
+- ✅ Smart caching & rate limiting
+- ✅ Leverage tracking & debt management
+- ✅ Enhanced UX with timestamps
+
+See [CHANGELOG.md](CHANGELOG.md) for complete version history.
+
+**⚠️ API Key:** Currently using free Alpha Vantage tier (25 requests/day). For production use, consider upgrading or implementing additional APIs.
+
+## 🚀 Version: v1.0 MVP
 
 ### Features (Weekend 1)
 - ✅ Manual portfolio input (ticker, shares, purchase price)
