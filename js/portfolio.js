@@ -64,9 +64,28 @@ class PortfolioManager {
         return this.positions;
     }
 
-// Get current price (mock data for MVP - will be API later)
+// Get current price (uses API if available, fallback to mock)
     getCurrentPrice(ticker) {
-        // Mock price data - simulates price movement
+        // Find position
+        const position = this.positions.find(p => p.ticker === ticker);
+        
+        if (!position) {
+            console.warn(`⚠️ Position not found for ticker: ${ticker}`);
+            return 0;
+        }
+        
+        // 1. HIGHEST PRIORITY: Use real API price if available
+        if (position.hasOwnProperty('realPrice') && position.realPrice !== null && position.realPrice !== undefined) {
+            // REAL PRICE from Alpha Vantage
+            return position.realPrice;
+        }
+        
+        // 2. Loans use purchase price (static, no fluctuation)
+        if (position.assetClass === 'loan') {
+            return position.purchasePrice;
+        }
+        
+        // 3. FALLBACK: Mock prices with random fluctuation
         const mockPrices = {
             // Tech Stocks
             'AAPL': 178.50,
@@ -87,11 +106,9 @@ class PortfolioManager {
             'MS': 92.30,
             'V': 265.80,
             
-            // Crypto
-            'BTC-USD': 43250.00,
-            'ETH-USD': 2280.50,
-            'SOL-USD': 98.30,
-            'BNB-USD': 315.40,
+            // Crypto ETFs
+            'GBTC': 52.30,
+            'ETHE': 28.40,
             
             // ETFs
             'SPY': 478.90,
@@ -117,21 +134,40 @@ class PortfolioManager {
             'VWO': 42.30
         };
 
-        // If we have a mock price, add random fluctuation ±3%
+        // Use mock price with fluctuation
         if (mockPrices[ticker]) {
             const basePrice = mockPrices[ticker];
             const fluctuation = (Math.random() - 0.5) * 0.06; // ±3%
             return basePrice * (1 + fluctuation);
         }
 
-        // For unknown tickers, use purchase price +/- random %
-        const position = this.positions.find(p => p.ticker === ticker);
-        if (position) {
-            const fluctuation = (Math.random() - 0.5) * 0.20; // ±10%
-            return position.purchasePrice * (1 + fluctuation);
+        // Unknown ticker - use purchase price with fluctuation
+        const fluctuation = (Math.random() - 0.5) * 0.20; // ±10%
+        return position.purchasePrice * (1 + fluctuation);
+    }
+
+    // Fetch real prices from API
+    async fetchRealPrices() {
+        // Get unique tickers (excluding loans)
+        const tickers = [...new Set(
+            this.positions
+                .filter(p => p.assetClass !== 'loan')
+                .map(p => p.ticker)
+        )];
+
+        if (tickers.length === 0) {
+            console.log('No tickers to fetch');
+            return {};
         }
 
-        return 0;
+        console.log(`📡 Fetching real prices for ${tickers.length} tickers...`);
+        
+        // Fetch prices with progress callback
+        const prices = await priceAPI.getMultiplePrices(tickers, (current, total, ticker) => {
+            console.log(`Progress: ${current}/${total} - Fetching ${ticker}...`);
+        });
+
+        return prices;
     }
 
     // Calculate portfolio metrics
@@ -221,5 +257,6 @@ class PortfolioManager {
     }
 }
 
-// Create global instance
-const portfolioManager = new PortfolioManager();
+// Create global instance (accessible from window/console)
+window.portfolioManager = new PortfolioManager();
+const portfolioManager = window.portfolioManager;

@@ -144,7 +144,8 @@
                         <p class="last-updated" id="lastUpdated">Last updated: --:--:--</p>
                     </div>
                     <div class="holdings-actions">
-                        <button id="refreshPrices" class="btn btn-primary">🔄 Refresh Prices</button>
+                        <button id="fetchRealPrices" class="btn btn-primary">📡 Fetch Real Prices</button>
+                        <button id="refreshPrices" class="btn btn-primary">🔄 Refresh Mock</button>
                         <button id="exportPortfolio" class="btn btn-primary">📥 Export</button>
                         <button id="importPortfolio" class="btn btn-primary">📤 Import</button>
                         <button id="clearPortfolio" class="btn btn-secondary">Clear All</button>
@@ -189,13 +190,14 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>Built with ❤️ and Claude AI | v1.0 MVP</p>
+            <p>Built with ❤️ by Alda & Javier, with the help of Claude AI | v1.0 MVP</p>
         </div>
     </footer>
 
     <!-- JavaScript -->
-    <script src="js/portfolio.js"></script>
-    <script src="js/charts.js"></script>
-    <script src="js/app.js"></script>
-</body>
+        <script src="js/api.js"></script>
+        <script src="js/portfolio.js"></script>
+        <script src="js/charts.js"></script>
+        <script src="js/app.js"></script>
+    </body>
 </html>

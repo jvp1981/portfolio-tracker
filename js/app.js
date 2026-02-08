@@ -46,6 +46,12 @@ class App {
                     refreshBtn.addEventListener('click', () => this.handleRefreshPrices());
                 }
 
+        // Fetch real prices button
+                const fetchRealBtn = document.getElementById('fetchRealPrices');
+                if (fetchRealBtn) {
+                    fetchRealBtn.addEventListener('click', () => this.handleFetchRealPrices());
+                }
+
         // Export portfolio button
         const exportBtn = document.getElementById('exportPortfolio');
         if (exportBtn) {
@@ -159,7 +165,51 @@ class App {
                 }, 1000);
             }
         }
+        async handleFetchRealPrices() {
+                const btn = document.getElementById('fetchRealPrices');
+                if (!btn) return;
 
+                try {
+                    // Disable button
+                    btn.disabled = true;
+                    btn.innerHTML = '⏳ Fetching...';
+
+                    // Fetch real prices
+                    const prices = await portfolioManager.fetchRealPrices();
+
+                    // Update positions with real prices
+                    const positions = portfolioManager.getPositions();
+                    let updatedCount = 0;
+
+                    positions.forEach(position => {
+                        if (prices[position.ticker]) {
+                            // Store real price temporarily
+                            position.realPrice = prices[position.ticker];
+                            updatedCount++;
+                        }
+                    });
+
+                    // Re-render
+                    this.render();
+
+                    // Show result
+                    alert(`✅ Updated ${updatedCount} prices from Alpha Vantage!`);
+                    console.log('✅ Real prices fetched:', prices);
+
+                    // Reset button
+                    btn.innerHTML = '📡 Fetch Real Prices';
+                    btn.disabled = false;
+
+                } catch (error) {
+                    console.error('Error fetching real prices:', error);
+                    alert('❌ Error fetching prices: ' + error.message);
+                    
+                    // Reset button
+                    btn.innerHTML = '📡 Fetch Real Prices';
+                    btn.disabled = false;
+                }
+            }
+            
         render() {
                 this.renderSummary();
                 this.renderHoldingsTable();
