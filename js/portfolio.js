@@ -161,6 +161,68 @@ class PortfolioManager {
             .sort((a, b) => b.currentValue - a.currentValue)
             .slice(0, limit);
     }
+
+    // Export portfolio to JSON
+    exportToJSON() {
+        const exportData = {
+            exportDate: new Date().toISOString(),
+            version: '1.0',
+            appName: 'Portfolio Tracker',
+            positions: this.positions
+        };
+        return JSON.stringify(exportData, null, 2);
+    }
+
+    // Import portfolio from JSON
+    importFromJSON(jsonString, mode = 'replace') {
+        try {
+            const importData = JSON.parse(jsonString);
+            
+            // Validate structure
+            if (!importData.positions || !Array.isArray(importData.positions)) {
+                throw new Error('Invalid portfolio format: missing positions array');
+            }
+
+            // Validate each position
+            importData.positions.forEach((pos, index) => {
+                if (!pos.ticker || pos.shares === undefined || pos.purchasePrice === undefined) {
+                    throw new Error(`Invalid position at index ${index}: missing required fields`);
+                }
+                if (typeof pos.shares !== 'number' || typeof pos.purchasePrice !== 'number') {
+                    throw new Error(`Invalid position at index ${index}: invalid data types`);
+                }
+            });
+
+            // Import based on mode
+            if (mode === 'replace') {
+                this.positions = importData.positions;
+            } else if (mode === 'merge') {
+                // Add positions that don't already exist
+                importData.positions.forEach(newPos => {
+                    const exists = this.positions.some(p => 
+                        p.ticker === newPos.ticker && 
+                        p.purchasePrice === newPos.purchasePrice
+                    );
+                    if (!exists) {
+                        this.positions.push(newPos);
+                    }
+                });
+            }
+
+            this.saveToStorage();
+            return {
+                success: true,
+                imported: importData.positions.length,
+                total: this.positions.length
+            };
+
+        } catch (error) {
+            return {
+                success: false,
+                error: error.message
+            };
+        }
+    }
 }
 
 // Create global instance

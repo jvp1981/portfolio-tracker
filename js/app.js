@@ -35,6 +35,24 @@ class App {
         if (clearBtn) {
             clearBtn.addEventListener('click', () => this.handleClearPortfolio());
         }
+
+        // Export portfolio button
+        const exportBtn = document.getElementById('exportPortfolio');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', () => this.handleExportPortfolio());
+        }
+
+        // Import portfolio button
+        const importBtn = document.getElementById('importPortfolio');
+        if (importBtn) {
+            importBtn.addEventListener('click', () => this.handleImportPortfolio());
+        }
+
+        // File input for import
+        const fileInput = document.getElementById('importFileInput');
+        if (fileInput) {
+            fileInput.addEventListener('change', (e) => this.handleFileSelected(e));
+        }
     }
 
     handleAddPosition(e) {
@@ -171,6 +189,99 @@ class App {
 
     formatAssetClass(assetClass) {
         return assetClass.charAt(0).toUpperCase() + assetClass.slice(1);
+    }
+    handleExportPortfolio() {
+        try {
+            // Get JSON data
+            const jsonData = portfolioManager.exportToJSON();
+            
+            // Create blob
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            
+            // Create download link
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            
+            // Set filename with current date
+            const date = new Date().toISOString().split('T')[0];
+            link.download = `portfolio-backup-${date}.json`;
+            link.href = url;
+            
+            // Trigger download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Clean up
+            URL.revokeObjectURL(url);
+            
+            console.log('✅ Portfolio exported successfully');
+            alert('Portfolio exported successfully! Check your Downloads folder.');
+            
+        } catch (error) {
+            console.error('Export error:', error);
+            alert('Error exporting portfolio: ' + error.message);
+        }
+    }
+
+    handleImportPortfolio() {
+        // Trigger the hidden file input
+        const fileInput = document.getElementById('importFileInput');
+        if (fileInput) {
+            fileInput.click();
+        }
+    }
+
+    handleFileSelected(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Check file type
+        if (!file.name.endsWith('.json')) {
+            alert('Please select a valid JSON file');
+            return;
+        }
+
+        // Read file
+        const reader = new FileReader();
+        
+        reader.onload = (event) => {
+            try {
+                const jsonString = event.target.result;
+                
+                // Ask user: Replace or Merge?
+                const mode = confirm(
+                    'Replace current portfolio?\n\n' +
+                    'OK = Replace everything\n' +
+                    'Cancel = Merge (add new positions)'
+                ) ? 'replace' : 'merge';
+                
+                // Import
+                const result = portfolioManager.importFromJSON(jsonString, mode);
+                
+                if (result.success) {
+                    this.render();
+                    alert(`✅ Import successful!\n\nImported: ${result.imported} positions\nTotal: ${result.total} positions`);
+                    console.log('✅ Portfolio imported:', result);
+                } else {
+                    alert('❌ Import failed:\n\n' + result.error);
+                    console.error('Import error:', result.error);
+                }
+                
+            } catch (error) {
+                alert('❌ Error reading file:\n\n' + error.message);
+                console.error('File read error:', error);
+            }
+            
+            // Reset file input
+            e.target.value = '';
+        };
+        
+        reader.onerror = () => {
+            alert('Error reading file');
+        };
+        
+        reader.readAsText(file);
     }
 }
 
