@@ -52,6 +52,12 @@ class App {
                     fetchRealBtn.addEventListener('click', () => this.handleFetchRealPrices());
                 }
 
+        // Clear cache button
+                const clearCacheBtn = document.getElementById('clearCache');
+                if (clearCacheBtn) {
+                    clearCacheBtn.addEventListener('click', () => this.handleClearCache());
+                }
+
         // Export portfolio button
         const exportBtn = document.getElementById('exportPortfolio');
         if (exportBtn) {
@@ -145,6 +151,22 @@ class App {
                 }
             }
 
+    handleClearCache() {
+        priceAPI.clearCache();
+        coinGeckoAPI.clearCache();
+        
+        // Clear realPrice from all positions
+        portfolioManager.positions.forEach(position => {
+            delete position.realPrice;
+        });
+        portfolioManager.saveToStorage();
+        
+        this.render();
+        
+        alert('🗑️ Cache cleared!\n\nAll prices reset to mock data.\nClick "Fetch Real Prices" to get fresh data.');
+        console.log('🗑️ All caches cleared');
+    }
+    
     handleRefreshPrices() {
             // Simply re-render - getCurrentPrice() generates new random prices
             this.render();
@@ -166,16 +188,21 @@ class App {
             }
         }
         async handleFetchRealPrices() {
-                const btn = document.getElementById('fetchRealPrices');
-                if (!btn) return;
+            const btn = document.getElementById('fetchRealPrices');
+            if (!btn) return;
 
-                try {
-                    // Disable button
-                    btn.disabled = true;
-                    btn.innerHTML = '⏳ Fetching...';
+            try {
+                // Disable button
+                btn.disabled = true;
+                btn.innerHTML = '⏳ Fetching...';
 
-                    // Fetch real prices
-                    const prices = await portfolioManager.fetchRealPrices();
+                // NUEVO: Clear caches to force fresh data
+                priceAPI.clearCache();
+                coinGeckoAPI.clearCache();
+                console.log('🗑️ Caches cleared - fetching fresh prices...');
+
+                // Fetch real prices
+                const prices = await portfolioManager.fetchRealPrices();
 
                     // Update positions with real prices
                     const positions = portfolioManager.getPositions();
@@ -193,7 +220,7 @@ class App {
                     this.render();
 
                     // Show result
-                    alert(`✅ Updated ${updatedCount} prices from Alpha Vantage!`);
+                    alert(`✅ Successfully updated ${updatedCount} real-time prices!`);
                     console.log('✅ Real prices fetched:', prices);
 
                     // Reset button

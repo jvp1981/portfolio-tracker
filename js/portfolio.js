@@ -146,29 +146,50 @@ class PortfolioManager {
         return position.purchasePrice * (1 + fluctuation);
     }
 
-    // Fetch real prices from API
-    async fetchRealPrices() {
-        // Get unique tickers (excluding loans)
-        const tickers = [...new Set(
-            this.positions
-                .filter(p => p.assetClass !== 'loan')
-                .map(p => p.ticker)
-        )];
+    // Fetch real prices from appropriate API (stocks → Alpha Vantage, crypto → CoinGecko)
+        async fetchRealPrices() {
+            // Get unique tickers (excluding loans)
+            const allTickers = [...new Set(
+                this.positions
+                    .filter(p => p.assetClass !== 'loan')
+                    .map(p => p.ticker)
+            )];
 
-        if (tickers.length === 0) {
-            console.log('No tickers to fetch');
-            return {};
+            if (allTickers.length === 0) {
+                console.log('No tickers to fetch');
+                return {};
+            }
+
+            console.log(`📡 Fetching real prices for ${allTickers.length} tickers...`);
+            
+            // Separate crypto from stocks/ETFs
+            const cryptoTickers = allTickers.filter(ticker => coinGeckoAPI.isCrypto(ticker));
+            const stockTickers = allTickers.filter(ticker => !coinGeckoAPI.isCrypto(ticker));
+            
+            console.log(`🪙 Crypto tickers: ${cryptoTickers.length}`);
+            console.log(`📈 Stock tickers: ${stockTickers.length}`);
+            
+            const allPrices = {};
+            
+            // Fetch crypto prices from CoinGecko (fast, batch request)
+            if (cryptoTickers.length > 0) {
+                console.log('🪙 Fetching crypto prices from CoinGecko...');
+                const cryptoPrices = await coinGeckoAPI.getMultiplePrices(cryptoTickers);
+                Object.assign(allPrices, cryptoPrices);
+            }
+            
+            // Fetch stock prices from Alpha Vantage (slow, one by one)
+            if (stockTickers.length > 0) {
+                console.log('📈 Fetching stock prices from Alpha Vantage...');
+                const stockPrices = await priceAPI.getMultiplePrices(stockTickers, (current, total, ticker) => {
+                    console.log(`Progress: ${current}/${total} - Fetching ${ticker}...`);
+                });
+                Object.assign(allPrices, stockPrices);
+            }
+
+            console.log('✅ All prices fetched:', allPrices);
+            return allPrices;
         }
-
-        console.log(`📡 Fetching real prices for ${tickers.length} tickers...`);
-        
-        // Fetch prices with progress callback
-        const prices = await priceAPI.getMultiplePrices(tickers, (current, total, ticker) => {
-            console.log(`Progress: ${current}/${total} - Fetching ${ticker}...`);
-        });
-
-        return prices;
-    }
 
     // Calculate portfolio metrics
         calculateMetrics() {
