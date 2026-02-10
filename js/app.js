@@ -205,16 +205,23 @@ class App {
                 const prices = await portfolioManager.fetchRealPrices();
 
                     // Update positions with real prices
-                    const positions = portfolioManager.getPositions();
-                    let updatedCount = 0;
+                            let updatedCount = 0;
 
-                    positions.forEach(position => {
-                        if (prices[position.ticker]) {
-                            // Store real price temporarily
-                            position.realPrice = prices[position.ticker];
-                            updatedCount++;
-                        }
-                    });
+                            portfolioManager.positions.forEach(position => {
+                                if (prices[position.ticker] !== null && prices[position.ticker] !== undefined) {
+                                    // Save current realPrice as lastPrice BEFORE updating
+                                    if (position.realPrice !== undefined && position.realPrice !== null) {
+                                        position.lastPrice = position.realPrice;
+                                    }
+                                    // Update to new price
+                                    position.realPrice = prices[position.ticker];
+                                    updatedCount++;
+                                    console.log(`💾 ${position.ticker}: realPrice=${position.realPrice}, lastPrice=${position.lastPrice || 'none'}`);
+                                }
+                            });
+
+                            // CRITICAL: Save to localStorage
+                            portfolioManager.saveToStorage();
 
                     // Re-render
                     this.render();
@@ -326,7 +333,12 @@ class App {
                     <td>${this.formatCurrency(position.purchasePrice)}</td>
                     <td>${this.formatCurrency(position.currentPrice)}</td>
                     <td>${this.formatCurrency(position.costBasis)}</td>
-                    <td>${this.formatCurrency(position.currentValue)}</td>
+                    <td>
+                                            <div class="price-with-change">
+                                                <span class="price-main">${this.formatCurrency(position.currentPrice)}</span>
+                                                ${this.renderPriceChange(position)}
+                                            </div>
+                                        </td>
                     <td class="${position.gainLoss >= 0 ? 'positive' : 'negative'}">
                         ${position.gainLoss >= 0 ? '+' : ''}${this.formatCurrency(position.gainLoss)}
                     </td>
@@ -382,6 +394,33 @@ class App {
             lastUpdatedEl.textContent = `Last updated: ${timeString}`;
         }
     }
+
+    // NUEVO MÉTODO - Render price change indicator
+        renderPriceChange(position) {
+            // Don't show change for loans
+            if (position.assetClass === 'loan') {
+                return '';
+            }
+
+            // No last price = no change to show
+            if (!position.lastPrice || position.priceChangePct === 0) {
+                return '<span class="price-change neutral">—</span>';
+            }
+
+            const isUp = position.priceChangePct > 0;
+            const arrow = isUp ? '↑' : '↓';
+            const className = isUp ? 'up' : 'down';
+            const sign = isUp ? '+' : '';
+
+            return `
+                <span class="price-change ${className} price-tooltip" 
+                      data-tooltip="Since last update">
+                    <span class="price-arrow">${arrow}</span>
+                    <span>${sign}${position.priceChangePct.toFixed(2)}%</span>
+                </span>
+            `;
+        }
+
     handleExportPortfolio() {
         try {
             // Get JSON data

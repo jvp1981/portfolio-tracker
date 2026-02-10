@@ -2,6 +2,33 @@
 
 All notable changes to Portfolio Tracker will be documented in this file.
 
+## [v1.3.0] - 2026-02-09
+
+### Added
+- CoinGecko API integration for cryptocurrency prices
+- Dual API system: CoinGecko (crypto) + Alpha Vantage (stocks)
+- Support for 12+ cryptocurrencies (BTC, ETH, SOL, BNB, ADA, DOGE, XRP, etc.)
+- Intelligent API routing based on ticker type detection
+- Clear Cache button for manual cache management
+- Batch crypto price fetching (all at once, instant)
+- Detailed success/fail feedback with API breakdown
+
+### Changed
+- fetchRealPrices() now routes to appropriate API automatically
+- Cache clearing now affects both APIs
+- Error messages now indicate which API failed
+- Alert messages show crypto vs stock count breakdown
+
+### Fixed
+- Crypto prices now accurate and real-time (via CoinGecko)
+- Better handling of API rate limits
+- Clearer user feedback when APIs unavailable
+
+### Known Issues
+- Alpha Vantage free tier limited to 25 requests/day
+- Stocks fall back to mock prices when daily limit reached
+- Rate limits reset at midnight UTC
+
 ## [v1.2.0] - 2026-02-08
 
 ### Added

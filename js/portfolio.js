@@ -187,9 +187,11 @@ class PortfolioManager {
                 Object.assign(allPrices, stockPrices);
             }
 
-            console.log('✅ All prices fetched:', allPrices);
-            return allPrices;
-        }
+// Store price history for change tracking
+
+        console.log('✅ All prices fetched:', allPrices);
+        return allPrices;
+    }
 
     // Calculate portfolio metrics
         calculateMetrics() {
@@ -224,14 +226,25 @@ class PortfolioManager {
                 totalInvested += costBasis;
                 totalCurrentValue += currentValue;
 
-                positionsWithValues.push({
-                    ...position,
-                    currentPrice: currentPrice,
-                    costBasis: costBasis,
-                    currentValue: currentValue,
-                    gainLoss: gainLoss,
-                    returnPct: returnPct
-                });
+                // Calculate price change since last update
+                            let priceChange = 0;
+                            let priceChangePct = 0;
+                            
+                            if (position.lastPrice && position.lastPrice > 0 && position.assetClass !== 'loan') {
+                                priceChange = currentPrice - position.lastPrice;
+                                priceChangePct = (priceChange / position.lastPrice) * 100;
+                            }
+
+                            positionsWithValues.push({
+                                ...position,
+                                currentPrice: currentPrice,
+                                costBasis: costBasis,
+                                currentValue: currentValue,
+                                gainLoss: gainLoss,
+                                returnPct: returnPct,
+                                priceChange: priceChange,
+                                priceChangePct: priceChangePct
+                            });
             });
 
             const totalGainLoss = totalCurrentValue - totalInvested;

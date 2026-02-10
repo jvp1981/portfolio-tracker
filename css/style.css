@@ -271,6 +271,13 @@ main.container {
     margin-bottom: var(--spacing-md);
 }
 
+.last-updated {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: var(--spacing-xs);
+    font-style: italic;
+}
+
 .holdings-actions {
     display: flex;
     gap: var(--spacing-sm);
@@ -415,3 +422,65 @@ main.container {
 .mt-2 { margin-top: var(--spacing-md); }
 .mb-1 { margin-bottom: var(--spacing-sm); }
 .mb-2 { margin-bottom: var(--spacing-md); }
+
+/* ============ PRICE CHANGE INDICATORS ============ */
+.price-change {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.price-change.up {
+    color: var(--success-color);
+}
+
+.price-change.down {
+    color: var(--danger-color);
+}
+
+.price-change.neutral {
+    color: var(--text-secondary);
+}
+
+.price-arrow {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.price-with-change {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.price-main {
+    font-weight: 600;
+}
+
+.price-change-small {
+    font-size: 0.75rem;
+}
+
+/* Tooltip for price change */
+.price-tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.price-tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-header);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 0.25rem;
+}
