@@ -2,6 +2,19 @@
 
 All notable changes to Portfolio Tracker will be documented in this file.
 
+## [v1.3.1] - 2026-02-10 (WIP)
+
+### Added
+- Price change indicators with arrows (↑↓)
+- Color-coded price movements (green/red)
+- Percentage change tracking since last update
+- Hover tooltip showing "Since last update"
+- lastPrice tracking for comparison
+
+### In Progress
+- Pending full testing (Alpha Vantage daily limit reached)
+- Will test complete flow tomorrow when API resets
+
 ## [v1.3.0] - 2026-02-09
 
 ### Added

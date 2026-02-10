@@ -188,53 +188,92 @@ class App {
             }
         }
         async handleFetchRealPrices() {
-            const btn = document.getElementById('fetchRealPrices');
-            if (!btn) return;
+                const btn = document.getElementById('fetchRealPrices');
+                if (!btn) return;
 
-            try {
-                // Disable button
-                btn.disabled = true;
-                btn.innerHTML = '⏳ Fetching...';
+                const loadingOverlay = document.getElementById('loadingOverlay');
 
-                // NUEVO: Clear caches to force fresh data
-                priceAPI.clearCache();
-                coinGeckoAPI.clearCache();
-                console.log('🗑️ Caches cleared - fetching fresh prices...');
+                try {
+                    // Show loading overlay
+                    if (loadingOverlay) {
+                        loadingOverlay.classList.remove('hidden');
+                    }
 
-                // Fetch real prices
-                const prices = await portfolioManager.fetchRealPrices();
+                    // Disable button
+                    btn.disabled = true;
+                    btn.innerHTML = '⏳ Fetching...';
+
+                    // Clear caches to force fresh data
+                    priceAPI.clearCache();
+                    coinGeckoAPI.clearCache();
+                    console.log('🗑️ Caches cleared - fetching fresh prices...');
+
+                    // Fetch real prices
+                    const prices = await portfolioManager.fetchRealPrices();
 
                     // Update positions with real prices
-                            let updatedCount = 0;
+                    let updatedCount = 0;
+                    
+                    portfolioManager.positions.forEach(position => {
+                        if (prices[position.ticker] !== null && prices[position.ticker] !== undefined) {
+                            // Save current realPrice as lastPrice BEFORE updating
+                            if (position.realPrice !== undefined && position.realPrice !== null) {
+                                position.lastPrice = position.realPrice;
+                            }
+                            // Update to new price
+                            position.realPrice = prices[position.ticker];
+                            updatedCount++;
+                            console.log(`💾 ${position.ticker}: realPrice=${position.realPrice}, lastPrice=${position.lastPrice || 'none'}`);
+                        }
+                    });
 
-                            portfolioManager.positions.forEach(position => {
-                                if (prices[position.ticker] !== null && prices[position.ticker] !== undefined) {
-                                    // Save current realPrice as lastPrice BEFORE updating
-                                    if (position.realPrice !== undefined && position.realPrice !== null) {
-                                        position.lastPrice = position.realPrice;
-                                    }
-                                    // Update to new price
-                                    position.realPrice = prices[position.ticker];
-                                    updatedCount++;
-                                    console.log(`💾 ${position.ticker}: realPrice=${position.realPrice}, lastPrice=${position.lastPrice || 'none'}`);
-                                }
-                            });
-
-                            // CRITICAL: Save to localStorage
-                            portfolioManager.saveToStorage();
+                    // Save to localStorage
+                    portfolioManager.saveToStorage();
 
                     // Re-render
                     this.render();
 
-                    // Show result
-                    alert(`✅ Successfully updated ${updatedCount} real-time prices!`);
+                    // Hide loading overlay
+                    if (loadingOverlay) {
+                        loadingOverlay.classList.add('hidden');
+                    }
+
+                    // Show result with breakdown
+                    const cryptoCount = Object.keys(prices).filter(ticker => 
+                        coinGeckoAPI.isCrypto(ticker) && prices[ticker] !== null
+                    ).length;
+
+                    const stockCount = Object.keys(prices).filter(ticker => 
+                        !coinGeckoAPI.isCrypto(ticker) && prices[ticker] !== null
+                    ).length;
+
+                    const failedCount = Object.values(prices).filter(p => p === null).length;
+
+                    let message = `✅ Updated ${updatedCount} real prices!\n\n`;
+                    message += `🪙 Crypto: ${cryptoCount} (CoinGecko)\n`;
+                    message += `📈 Stocks: ${stockCount} (Alpha Vantage)\n`;
+
+                    if (failedCount > 0) {
+                        message += `\n⚠️ ${failedCount} failed (using mock prices)\n`;
+                        message += `Tip: Alpha Vantage has 25 requests/day limit.`;
+                    }
+
+                    alert(message);
                     console.log('✅ Real prices fetched:', prices);
 
                     // Reset button
-                    btn.innerHTML = '📡 Fetch Real Prices';
-                    btn.disabled = false;
+                    btn.innerHTML = '✅ Prices Updated';
+                    setTimeout(() => {
+                        btn.innerHTML = '📡 Fetch Real Prices';
+                        btn.disabled = false;
+                    }, 2000);
 
                 } catch (error) {
+                    // Hide loading overlay
+                    if (loadingOverlay) {
+                        loadingOverlay.classList.add('hidden');
+                    }
+
                     console.error('Error fetching real prices:', error);
                     alert('❌ Error fetching prices: ' + error.message);
                     
@@ -243,7 +282,7 @@ class App {
                     btn.disabled = false;
                 }
             }
-            
+
         render() {
                 this.renderSummary();
                 this.renderHoldingsTable();
@@ -253,6 +292,18 @@ class App {
 
     renderSummary() {
             const metrics = portfolioManager.calculateMetrics();
+
+            // Add fade-in animation to cards (staggered)
+                   setTimeout(() => {
+                       const cards = document.querySelectorAll('.summary-card');
+                       cards.forEach((card, index) => {
+                           card.style.opacity = '0';
+                           setTimeout(() => {
+                               card.classList.add('fade-in');
+                               card.style.opacity = '1';
+                           }, index * 50);
+                       });
+                   }, 10);
             
             // Total Value
             document.getElementById('totalValue').textContent = 
