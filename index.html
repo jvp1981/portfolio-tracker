@@ -34,36 +34,54 @@
     <main class="container">
         
         <!-- Portfolio Summary Cards -->
-                <section class="summary-section">
-                    <div class="card summary-card">
-                        <h3>Total Value</h3>
-                        <p class="metric-value" id="totalValue">$0.00</p>
-                        <p class="metric-change" id="totalChange">+$0.00 (0%)</p>
-                    </div>
-                    
-                    <div class="card summary-card">
-                        <h3>Total Invested</h3>
-                        <p class="metric-value" id="totalInvested">$0.00</p>
-                    </div>
-                    
-                    <div class="card summary-card">
-                        <h3>Total Return</h3>
-                        <p class="metric-value" id="totalReturn">0%</p>
-                        <p class="metric-change" id="returnAmount">+$0.00</p>
-                    </div>
-                    
-                    <div class="card summary-card">
-                        <h3>Holdings</h3>
-                        <p class="metric-value" id="totalHoldings">0</p>
-                        <p class="metric-label">positions</p>
-                    </div>
-                    
-                    <div class="card summary-card">
-                        <h3>Leverage</h3>
-                        <p class="metric-value" id="leverageValue">0%</p>
-                        <p class="metric-label" id="leverageLabel">No debt</p>
-                    </div>
-                </section>
+        <section class="summary-section">
+                        <!-- Row 1: Main metrics -->
+                        <div class="summary-card">
+                            <h3>Total Value</h3>
+                            <p class="metric-value" id="totalValue">$0.00</p>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <h3>Total Invested</h3>
+                            <p class="metric-value" id="totalInvested">$0.00</p>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <h3>Total Return</h3>
+                            <p class="metric-value" id="totalReturn">$0.00</p>
+                            <p class="metric-change" id="totalReturnPct">0.00%</p>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <h3>Holdings</h3>
+                            <p class="metric-value" id="holdingsCount">0</p>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <h3>Leverage</h3>
+                            <p class="metric-value" id="leverage">0%</p>
+                            <p class="metric-label" id="leverageLabel">No debt</p>
+                        </div>
+                        
+                        <!-- Row 2: Performance insights -->
+                        <div class="summary-card performance-card">
+                            <h3>🏆 Best Performer</h3>
+                            <p class="performer-ticker" id="bestPerformerTicker">—</p>
+                            <p class="performer-change" id="bestPerformerChange">—</p>
+                        </div>
+                        
+                        <div class="summary-card performance-card">
+                            <h3>📉 Worst Performer</h3>
+                            <p class="performer-ticker" id="worstPerformerTicker">—</p>
+                            <p class="performer-change" id="worstPerformerChange">—</p>
+                        </div>
+                        
+                        <div class="summary-card performance-card">
+                            <h3>📈 Day Change</h3>
+                            <p class="day-change-value" id="dayChangeValue">$0.00</p>
+                            <p class="day-change-pct" id="dayChangePct">0.00%</p>
+                        </div>
+                    </section>
 
         <!-- Charts Section -->
         <section class="charts-section">

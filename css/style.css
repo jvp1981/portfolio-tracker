@@ -177,6 +177,83 @@ main.container {
     margin-top: var(--spacing-xs);
 }
 
+.metric-change {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: var(--spacing-xs);
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-xs);
+}
+
+/* Performance cards */
+.performance-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+}
+
+.performer-ticker {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: var(--spacing-xs) 0;
+}
+
+.performer-change {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.performer-change.positive {
+    color: var(--success-color);
+}
+
+.performer-change.negative {
+    color: var(--danger-color);
+}
+
+.day-change-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: var(--spacing-xs) 0;
+}
+
+.day-change-value.positive {
+    color: var(--success-color);
+}
+
+.day-change-value.negative {
+    color: var(--danger-color);
+}
+
+.day-change-pct {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Badge styles */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-winner {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+}
+
+.badge-loser {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+}
+
 /* ============ CHARTS SECTION ============ */
 .charts-section {
     display: grid;

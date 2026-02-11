@@ -303,73 +303,120 @@ class App {
                 this.updateLastUpdated();
             }
 
-    renderSummary() {
-            const metrics = portfolioManager.calculateMetrics();
-
-            // Add fade-in animation to cards (staggered)
-                   setTimeout(() => {
-                       const cards = document.querySelectorAll('.summary-card');
-                       cards.forEach((card, index) => {
-                           card.style.opacity = '0';
-                           setTimeout(() => {
-                               card.classList.add('fade-in');
-                               card.style.opacity = '1';
-                           }, index * 50);
-                       });
-                   }, 10);
-            
-            // Total Value
-            document.getElementById('totalValue').textContent = 
-                this.formatCurrency(metrics.totalCurrentValue);
-            
-            const changeEl = document.getElementById('totalChange');
-            changeEl.textContent = 
-                `${metrics.totalGainLoss >= 0 ? '+' : ''}${this.formatCurrency(metrics.totalGainLoss)} (${metrics.totalReturnPct.toFixed(2)}%)`;
-            changeEl.className = `metric-change ${metrics.totalGainLoss >= 0 ? 'positive' : 'negative'}`;
-            
-            // Total Invested
-            document.getElementById('totalInvested').textContent = 
-                this.formatCurrency(metrics.totalInvested);
-            
-            // Total Return
-            document.getElementById('totalReturn').textContent = 
-                `${metrics.totalReturnPct >= 0 ? '+' : ''}${metrics.totalReturnPct.toFixed(2)}%`;
-            
-            const returnAmountEl = document.getElementById('returnAmount');
-            returnAmountEl.textContent = 
-                `${metrics.totalGainLoss >= 0 ? '+' : ''}${this.formatCurrency(metrics.totalGainLoss)}`;
-            returnAmountEl.className = `metric-change ${metrics.totalGainLoss >= 0 ? 'positive' : 'negative'}`;
-            
-            // Holdings Count
-            document.getElementById('totalHoldings').textContent = metrics.holdingsCount;
-            
-            // Leverage
-            const leverageEl = document.getElementById('leverageValue');
-            const leverageLabelEl = document.getElementById('leverageLabel');
-            
-            if (metrics.totalDebt > 0) {
-                leverageEl.textContent = `${metrics.leveragePct.toFixed(1)}%`;
-                
-                // Color coding and label based on leverage level
-                if (metrics.leveragePct < 20) {
-                    leverageEl.className = 'metric-value';
-                    leverageLabelEl.textContent = '🟢 Low';
-                    leverageLabelEl.className = 'metric-label';
-                } else if (metrics.leveragePct < 50) {
-                    leverageEl.className = 'metric-value';
-                    leverageLabelEl.textContent = '🟡 Medium';
-                    leverageLabelEl.className = 'metric-label';
-                } else {
-                    leverageEl.className = 'metric-value';
-                    leverageLabelEl.textContent = '🔴 High';
-                    leverageLabelEl.className = 'metric-label';
+            renderSummary() {
+                    const metrics = portfolioManager.calculateMetrics();
+                    
+                    // Add fade-in animation to cards (staggered)
+                    setTimeout(() => {
+                        const cards = document.querySelectorAll('.summary-card');
+                        cards.forEach((card, index) => {
+                            card.style.opacity = '0';
+                            setTimeout(() => {
+                                card.classList.add('fade-in');
+                                card.style.opacity = '1';
+                            }, index * 50);
+                        });
+                    }, 10);
+                    
+                    // Update main metrics
+                    document.getElementById('totalValue').textContent = this.formatCurrency(metrics.totalCurrentValue);
+                    document.getElementById('totalInvested').textContent = this.formatCurrency(metrics.totalInvested);
+                    document.getElementById('totalReturn').textContent = this.formatCurrency(metrics.totalGainLoss);
+                    
+                    const returnPctEl = document.getElementById('totalReturnPct');
+                    returnPctEl.textContent = `${metrics.totalReturnPct >= 0 ? '+' : ''}${metrics.totalReturnPct.toFixed(2)}%`;
+                    returnPctEl.style.color = metrics.totalReturnPct >= 0 ? 'var(--success-color)' : 'var(--danger-color)';
+                    
+                    document.getElementById('holdingsCount').textContent = metrics.holdingsCount;
+                    
+                    // Leverage
+                    const leverageEl = document.getElementById('leverage');
+                    const leverageLabelEl = document.getElementById('leverageLabel');
+                    
+                    if (metrics.totalDebt > 0) {
+                        leverageEl.textContent = `${metrics.leveragePct.toFixed(1)}%`;
+                        
+                        if (metrics.leveragePct < 20) {
+                            leverageLabelEl.textContent = '🟢 Low';
+                            leverageLabelEl.style.color = 'var(--success-color)';
+                        } else if (metrics.leveragePct < 50) {
+                            leverageLabelEl.textContent = '🟡 Medium';
+                            leverageLabelEl.style.color = 'var(--warning-color)';
+                        } else {
+                            leverageLabelEl.textContent = '🔴 High';
+                            leverageLabelEl.style.color = 'var(--danger-color)';
+                        }
+                    } else {
+                        leverageEl.textContent = '0%';
+                        leverageLabelEl.textContent = 'No debt';
+                        leverageLabelEl.style.color = 'var(--text-secondary)';
+                    }
+                    
+                    // Calculate performance insights
+                    this.renderPerformanceInsights(metrics);
                 }
-            } else {
-                leverageEl.textContent = '0%';
-                leverageLabelEl.textContent = 'No debt';
-                leverageLabelEl.className = 'metric-label';
-            }
-        }
+                
+                renderPerformanceInsights(metrics) {
+                    // Filter out loans and positions without price changes
+                    const tradablePositions = metrics.positions.filter(p => 
+                        p.assetClass !== 'loan' && p.priceChangePct !== undefined && p.priceChangePct !== 0
+                    );
+                    
+                    if (tradablePositions.length === 0) {
+                        // No data yet
+                        document.getElementById('bestPerformerTicker').textContent = '—';
+                        document.getElementById('bestPerformerChange').textContent = 'No data yet';
+                        document.getElementById('worstPerformerTicker').textContent = '—';
+                        document.getElementById('worstPerformerChange').textContent = 'No data yet';
+                        document.getElementById('dayChangeValue').textContent = '$0.00';
+                        document.getElementById('dayChangePct').textContent = '0.00%';
+                        return;
+                    }
+                    
+                    // Find best and worst performers
+                    const sorted = [...tradablePositions].sort((a, b) => b.priceChangePct - a.priceChangePct);
+                    const bestPerformer = sorted[0];
+                    const worstPerformer = sorted[sorted.length - 1];
+                    
+                    // Best performer
+                    const bestTickerEl = document.getElementById('bestPerformerTicker');
+                    const bestChangeEl = document.getElementById('bestPerformerChange');
+                    
+                    bestTickerEl.textContent = bestPerformer.ticker;
+                    bestChangeEl.textContent = `+${bestPerformer.priceChangePct.toFixed(2)}%`;
+                    bestChangeEl.className = 'performer-change positive';
+                    
+                    // Worst performer
+                    const worstTickerEl = document.getElementById('worstPerformerTicker');
+                    const worstChangeEl = document.getElementById('worstPerformerChange');
+                    
+                    worstTickerEl.textContent = worstPerformer.ticker;
+                    worstChangeEl.textContent = `${worstPerformer.priceChangePct.toFixed(2)}%`;
+                    worstChangeEl.className = worstPerformer.priceChangePct >= 0 ? 'performer-change positive' : 'performer-change negative';
+                    
+                    // Calculate total day change
+                    let totalDayChange = 0;
+                    tradablePositions.forEach(position => {
+                        if (position.priceChange && position.shares) {
+                            totalDayChange += position.priceChange * position.shares;
+                        }
+                    });
+                    
+                    const dayChangeValueEl = document.getElementById('dayChangeValue');
+                    const dayChangePctEl = document.getElementById('dayChangePct');
+                    
+                    dayChangeValueEl.textContent = this.formatCurrency(Math.abs(totalDayChange));
+                    dayChangeValueEl.className = totalDayChange >= 0 ? 'day-change-value positive' : 'day-change-value negative';
+                    
+                    if (totalDayChange >= 0) {
+                        dayChangeValueEl.textContent = '+' + dayChangeValueEl.textContent;
+                    } else {
+                        dayChangeValueEl.textContent = '-' + dayChangeValueEl.textContent;
+                    }
+                    
+                    const dayChangePct = metrics.totalCurrentValue > 0 ? (totalDayChange / metrics.totalCurrentValue) * 100 : 0;
+                    dayChangePctEl.textContent = `${dayChangePct >= 0 ? '↑' : '↓'} ${Math.abs(dayChangePct).toFixed(2)}%`;
+                }
 
     renderHoldingsTable() {
         const metrics = portfolioManager.calculateMetrics();
