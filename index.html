@@ -150,16 +150,18 @@
                 <div class="holdings-header">
                     <div>
                         <h3>Portfolio Holdings</h3>
-                        <p class="last-updated" id="lastUpdated">Last updated: --:--:--</p>
+                        <div class="update-info">
+                            <p class="last-updated" id="lastUpdated">Last updated: --:--:--</p>
+                            <p class="next-refresh" id="nextRefresh" style="display: none;">Next refresh in: <span id="countdown">--:--</span></p>
+                        </div>
                     </div>
                     <div class="holdings-actions">
-                        <button id="fetchRealPrices" class="btn btn-primary">📡 Fetch Real Prices</button>
-                        <button id="refreshPrices" class="btn btn-primary">🔄 Refresh Mock</button>
-                        <button id="clearCache" class="btn btn-secondary">🗑️ Clear Cache</button>
+                        <button id="fetchRealPrices" class="btn btn-primary">📡 Fetch Prices</button>
+                        <button id="toggleAutoRefresh" class="btn btn-secondary">⏸️ Auto-Refresh</button>
                         <button id="exportPortfolio" class="btn btn-primary">📥 Export</button>
                         <button id="importPortfolio" class="btn btn-primary">📤 Import</button>
-                        <button id="clearPortfolio" class="btn btn-secondary">Clear All</button>
-                    </div>                </div>
+                    </div>
+                </div>
    
    <!-- Hidden file input for import -->
    <input type="file" id="importFileInput" accept=".json" style="display: none;">

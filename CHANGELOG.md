@@ -2,6 +2,35 @@
 
 All notable changes to Portfolio Tracker will be documented in this file.
 
+## [v1.3.2] - 2026-02-10
+
+### Added
+- Loading overlay with animated spinner during API fetches
+- Comprehensive hover effects on all interactive elements
+- Summary card lift animation on hover (4px translateY)
+- Table row highlight on hover with scale effect
+- Button press feedback animations
+- Enhanced empty state with icon and helpful tips
+- Smooth transitions throughout the app (0.3s ease)
+
+### Changed
+- Summary cards now have visual depth with shadows
+- Border colors change to primary blue on hover
+- All buttons have lift effect on hover
+- Improved visual hierarchy with consistent spacing
+
+### Technical
+- CSS custom properties for shadows (sm/md/lg)
+- Transform-based animations for performance
+- Backdrop blur on loading overlay
+- Proper z-index stacking for overlays
+
+### UX Improvements
+- Instant visual feedback on all interactions
+- Loading states show progress and estimated time
+- Better perceived performance with animations
+- Professional polish throughout
+
 ## [v1.3.1] - 2026-02-10 (WIP)
 
 ### Added

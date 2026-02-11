@@ -295,9 +295,82 @@ main.container {
     font-style: italic;
 }
 
+/* Auto-refresh info */
+.update-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.next-refresh {
+    font-size: 0.75rem;
+    color: var(--success-color);
+    font-style: italic;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.next-refresh span {
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+}
+
+/* Auto-refresh button states */
+.btn-auto-refresh-active {
+    background-color: var(--success-color) !important;
+    border-color: var(--success-color) !important;
+}
+
+.btn-auto-refresh-active:hover {
+    background-color: #059669 !important;
+}
+
+/* Refresh notification */
+.refresh-notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--success-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.refresh-notification.fade-out {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(400px);
+    }
+}
+
 .holdings-actions {
     display: flex;
     gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.holdings-actions .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
 }
 
 .table-container {

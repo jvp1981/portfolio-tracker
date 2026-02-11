@@ -5,6 +5,13 @@
 
 class App {
     constructor() {
+        // Auto-refresh state
+        this.autoRefreshEnabled = false;
+        this.autoRefreshInterval = null;
+        this.countdownInterval = null;
+        this.nextRefreshTime = null;
+        this.refreshIntervalMinutes = 5; // 5 minutes
+        
         this.init();
     }
 
@@ -44,6 +51,12 @@ class App {
                 const refreshBtn = document.getElementById('refreshPrices');
                 if (refreshBtn) {
                     refreshBtn.addEventListener('click', () => this.handleRefreshPrices());
+                }
+
+        // Toggle auto-refresh button
+                const toggleAutoRefreshBtn = document.getElementById('toggleAutoRefresh');
+                if (toggleAutoRefreshBtn) {
+                    toggleAutoRefreshBtn.addEventListener('click', () => this.handleToggleAutoRefresh());
                 }
 
         // Fetch real prices button
@@ -565,7 +578,124 @@ class App {
         
         reader.readAsText(file);
     }
-}
+// ============ AUTO-REFRESH FUNCTIONALITY ============
+    
+    handleToggleAutoRefresh() {
+        this.autoRefreshEnabled = !this.autoRefreshEnabled;
+        
+        const btn = document.getElementById('toggleAutoRefresh');
+        const nextRefreshEl = document.getElementById('nextRefresh');
+        
+        if (this.autoRefreshEnabled) {
+            // Start auto-refresh
+            btn.innerHTML = '▶️ Auto-Refresh';
+            btn.classList.add('btn-auto-refresh-active');
+            nextRefreshEl.style.display = 'block';
+            
+            this.startAutoRefresh();
+            console.log('✅ Auto-refresh enabled (every 5 minutes)');
+            
+        } else {
+            // Stop auto-refresh
+            btn.innerHTML = '⏸️ Auto-Refresh';
+            btn.classList.remove('btn-auto-refresh-active');
+            nextRefreshEl.style.display = 'none';
+            
+            this.stopAutoRefresh();
+            console.log('⏸️ Auto-refresh disabled');
+        }
+    }
+    
+    startAutoRefresh() {
+        // Clear any existing intervals
+        this.stopAutoRefresh();
+        
+        // Set next refresh time
+        this.nextRefreshTime = Date.now() + (this.refreshIntervalMinutes * 60 * 1000);
+        
+        // Start countdown
+        this.startCountdown();
+        
+        // Set interval for auto-refresh
+        this.autoRefreshInterval = setInterval(() => {
+            this.performAutoRefresh();
+        }, this.refreshIntervalMinutes * 60 * 1000);
+    }
+    
+    stopAutoRefresh() {
+        if (this.autoRefreshInterval) {
+            clearInterval(this.autoRefreshInterval);
+            this.autoRefreshInterval = null;
+        }
+        
+        if (this.countdownInterval) {
+            clearInterval(this.countdownInterval);
+            this.countdownInterval = null;
+        }
+    }
+    
+    startCountdown() {
+        // Update countdown every second
+        this.countdownInterval = setInterval(() => {
+            const now = Date.now();
+            const timeLeft = this.nextRefreshTime - now;
+            
+            if (timeLeft <= 0) {
+                // Time's up, will refresh on next interval cycle
+                this.updateCountdownDisplay('00:00');
+                return;
+            }
+            
+            const minutes = Math.floor(timeLeft / 60000);
+            const seconds = Math.floor((timeLeft % 60000) / 1000);
+            
+            this.updateCountdownDisplay(`${minutes}:${seconds.toString().padStart(2, '0')}`);
+        }, 1000);
+    }
+    
+    updateCountdownDisplay(timeString) {
+        const countdownEl = document.getElementById('countdown');
+        if (countdownEl) {
+            countdownEl.textContent = timeString;
+        }
+    }
+    
+    async performAutoRefresh() {
+        console.log('🔄 Auto-refresh triggered');
+        
+        // Show notification
+        this.showRefreshNotification();
+        
+        // Trigger fetch (reuse existing method)
+        const btn = document.getElementById('fetchRealPrices');
+        if (btn && !btn.disabled) {
+            // Simulate click on fetch button
+            btn.click();
+        }
+        
+        // Reset timer for next refresh
+        this.nextRefreshTime = Date.now() + (this.refreshIntervalMinutes * 60 * 1000);
+    }
+    
+    showRefreshNotification() {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'refresh-notification';
+        notification.innerHTML = '🔄 Auto-refreshing prices...';
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+}  // ← Esta llave cierra la clase App
 
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
