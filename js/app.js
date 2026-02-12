@@ -88,6 +88,18 @@ class App {
         if (fileInput) {
             fileInput.addEventListener('change', (e) => this.handleFileSelected(e));
         }
+    
+        // Navigation buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleNavigation(e));
+        });
+        
+        // Settings button
+        const settingsBtn = document.getElementById('settingsBtn');
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', () => this.handleSettings());
+        }
+
     }
 
     handleAddPosition(e) {
@@ -742,6 +754,36 @@ class App {
             }, 300);
         }, 3000);
     }
+
+    // ============ NAVIGATION ============
+        
+        handleNavigation(e) {
+            const btn = e.currentTarget;
+            const view = btn.dataset.view;
+            
+            // Ignore disabled buttons
+            if (btn.disabled) {
+                return;
+            }
+            
+            // Update active state
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Switch views
+            document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
+            const targetView = document.getElementById(`${view}View`);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+            
+            console.log(`📍 Navigated to: ${view}`);
+        }
+        
+        handleSettings() {
+            alert('⚙️ Settings\n\nComing soon:\n• Theme preferences\n• API key management\n• Export settings\n• Notification preferences');
+        }
+            
 }  // ← Esta llave cierra la clase App
 
 // Initialize app when DOM is ready

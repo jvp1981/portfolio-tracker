@@ -22,16 +22,45 @@
         </div>
     </div>
 
-    <!-- Header -->
     <header class="header">
-        <div class="container">
-            <h1>📊 Portfolio Tracker</h1>
-            <p class="subtitle">Investment Dashboard & Advisor</p>
-        </div>
-    </header>
+            <div class="header-container">
+                <div class="header-brand">
+                    <h1>📊 Portfolio Tracker Suite</h1>
+                    <p class="header-tagline">Track • Analyze • Plan</p>
+                </div>
+                
+                <nav class="main-nav">
+                    <button class="nav-btn active" data-view="tracker">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-label">Portfolio</span>
+                    </button>
+                    <button class="nav-btn" data-view="ai-advisor" disabled>
+                        <span class="nav-icon">🤖</span>
+                        <span class="nav-label">AI Advisor</span>
+                        <span class="badge-coming-soon">Soon</span>
+                    </button>
+                    <button class="nav-btn" data-view="fire-calc" disabled>
+                        <span class="nav-icon">🔥</span>
+                        <span class="nav-label">FIRE Calc</span>
+                        <span class="badge-coming-soon">Soon</span>
+                    </button>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="icon-btn" id="settingsBtn" title="Settings">
+                        <span>⚙️</span>
+                    </button>
+                </div>
+            </div>
+        </header>
 
-    <!-- Main Container -->
-    <main class="container">
+    <!-- Main Content -->
+        <main class="container">
+            <!-- Portfolio Tracker View (Active) -->
+            <div id="portfolioView" class="view-container active">
+                
+                <!-- Add Position Form -->
+                <section class="add-position-section">
         
         <!-- Portfolio Summary Cards -->
         <section class="summary-section">
@@ -216,11 +245,46 @@
                             </p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
+                                        </div>
+                                    </div>
+                                </section>
+                                
+                            </div>
+                            <!-- End Portfolio View -->
+                            
+                            <!-- AI Advisor View (Coming Soon) -->
+                            <div id="aiAdvisorView" class="view-container">
+                                <div class="coming-soon-placeholder">
+                                    <div class="coming-soon-icon">🤖</div>
+                                    <h2>AI Advisor</h2>
+                                    <p>Get personalized portfolio insights powered by Claude AI</p>
+                                    <div class="coming-soon-features">
+                                        <div class="feature-item">✅ Portfolio analysis</div>
+                                        <div class="feature-item">✅ Rebalancing suggestions</div>
+                                        <div class="feature-item">✅ Risk assessment</div>
+                                        <div class="feature-item">✅ Ask anything about your portfolio</div>
+                                    </div>
+                                    <p class="coming-soon-eta">Coming in v2.0 • Est. 1-2 weeks</p>
+                                </div>
+                            </div>
+                            
+                            <!-- FIRE Calculator View (Coming Soon) -->
+                            <div id="fireCalcView" class="view-container">
+                                <div class="coming-soon-placeholder">
+                                    <div class="coming-soon-icon">🔥</div>
+                                    <h2>FIRE Calculator</h2>
+                                    <p>Calculate your path to Financial Independence, Retire Early</p>
+                                    <div class="coming-soon-features">
+                                        <div class="feature-item">✅ Years to FIRE projection</div>
+                                        <div class="feature-item">✅ Multiple scenarios</div>
+                                        <div class="feature-item">✅ Interactive timeline</div>
+                                        <div class="feature-item">✅ Withdrawal strategies</div>
+                                    </div>
+                                    <p class="coming-soon-eta">Coming in v2.1 • Est. 2-3 weeks</p>
+                                </div>
+                            </div>
+                            
+                        </main>
 
     <!-- Footer -->
     <footer class="footer">
