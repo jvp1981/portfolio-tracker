@@ -6,7 +6,20 @@ A personal investment portfolio tracking dashboard with analytics and AI-powered
 
 This is a progressive web application designed to help investors track, analyze, and optimize their investment portfolios. Built as a learning project to master modern web development with LLM-assisted coding.
 
-## 🚀 Current Version: v1.4.0
+## 🚀 Current Version: v1.5.0
+
+**Latest Updates:**
+- ✅ Multi-module navigation structure
+- ✅ Professional suite branding
+- ✅ Coming Soon placeholders (AI Advisor, FIRE Calc)
+- ✅ Auto-refresh with 5-minute intervals
+- ✅ Performance insights dashboard
+- ✅ Real-time price tracking (dual API)
+- ✅ Professional UI/UX with animations
+
+See [CHANGELOG.md](CHANGELOG.md) for complete version history.
+
+## 🚀 Version: v1.4.0
 
 **Latest Updates:**
 - ✅ Auto-refresh with 5-minute intervals
@@ -116,7 +129,7 @@ portfolio-tracker/
 3. View your portfolio dashboard
 4. Track your performance!
 
-## 📈 Development Roadmap
+## 📈 Development Roadmap (Start of the project)
 
 ### Phase 1: MVP ✅ (Current)
 - Basic portfolio tracking
@@ -138,6 +151,43 @@ portfolio-tracker/
 - User authentication
 - Multi-user support
 - Monetization features
+
+## 🗺️ Roadmap (12.02.2025)
+
+### ✅ Completed
+- **v1.0.0** - MVP Base (tracking, charts, localStorage)
+- **v1.1.0** - Leverage & Export/Import
+- **v1.2.0** - Alpha Vantage API integration
+- **v1.3.0** - CoinGecko integration (dual API)
+- **v1.4.0** - Auto-refresh & Performance insights
+- **v1.5.0** - Navigation structure & Suite branding
+
+### 🚧 In Progress
+- **v2.0.0** - AI Advisor (Coming Soon)
+  - Claude API integration
+  - Portfolio analysis & recommendations
+  - Chat interface
+  - Risk assessment
+
+### 📋 Planned
+- **v2.1.0** - FIRE Calculator
+  - Years to FIRE projection
+  - Multiple scenarios
+  - Interactive timeline
+  - Withdrawal strategies
+
+- **v2.2.0** - Advanced Features
+  - Historical performance tracking
+  - Backtesting capabilities
+  - Custom alerts & notifications
+  - Multi-portfolio support
+
+### 💡 Future Considerations
+- User authentication
+- Cloud sync
+- Mobile app (PWA)
+- API for third-party integrations
+- Premium tier features
 
 ## 🧑‍💻 Learning Objectives
 

@@ -1,6 +1,48 @@
 # Changelog
 
-All notable changes to Portfolio Tracker will be documented in this file.
+All notable changes to Portfolio Tracker Suite will be documented in this file.
+
+## [v1.5.0] - 2026-02-11
+
+### Added
+- Multi-module navigation structure
+- Professional header with suite branding
+- Navigation bar with 3 modules (Portfolio, AI Advisor, FIRE Calc)
+- Coming Soon placeholders for future modules
+- View switching system for multi-page architecture
+- Settings button placeholder
+- Responsive navigation design
+
+### Changed
+- Rebranded to "Portfolio Tracker Suite"
+- New tagline: "Track • Analyze • Plan"
+- Sticky header with gradient background
+- Professional navigation with active states
+- Badge system for upcoming features
+
+### Improved
+- Navigation UX with hover effects
+- Active state indicators
+- Icon-based navigation
+- Mobile-responsive nav buttons
+- View container architecture
+
+### Technical
+- View switching JavaScript implementation
+- data-view attribute system
+- CSS view-container classes
+- Navigation event handling
+- Prepared for routing in v2.0
+
+### Coming Soon
+- AI Advisor (v2.0 - Est. 1-2 weeks)
+- FIRE Calculator (v2.1 - Est. 2-3 weeks)
+
+## [v1.4.0] - 2026-02-11
+
+### Added
+- Auto-refresh functionality with 5-minute intervals
+...
 
 ## [v1.4.0] - 2026-02-11
 
