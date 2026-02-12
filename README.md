@@ -6,7 +6,21 @@ A personal investment portfolio tracking dashboard with analytics and AI-powered
 
 This is a progressive web application designed to help investors track, analyze, and optimize their investment portfolios. Built as a learning project to master modern web development with LLM-assisted coding.
 
-## 🚀 Current Version: v1.2.0
+## 🚀 Current Version: v1.4.0
+
+**Latest Updates:**
+- ✅ Auto-refresh with 5-minute intervals
+- ✅ Performance insights (Best/Worst performers)
+- ✅ Day change tracking and visualization
+- ✅ Enhanced dashboard with 8 cards
+- ✅ Real-time price tracking (dual API)
+- ✅ Smart caching & rate limiting
+- ✅ Leverage tracking & debt management
+- ✅ Professional UI/UX with animations
+
+See [CHANGELOG.md](CHANGELOG.md) for complete version history.
+
+## 🚀 Version: v1.2.0
 
 **Latest Updates:**
 - ✅ Real-time prices via Alpha Vantage API
@@ -14,19 +28,44 @@ This is a progressive web application designed to help investors track, analyze,
 - ✅ Leverage tracking & debt management
 - ✅ Enhanced UX with timestamps
 
-See [CHANGELOG.md](CHANGELOG.md) for complete version history.
-
 **⚠️ API Key:** Currently using free Alpha Vantage tier (25 requests/day). For production use, consider upgrading or implementing additional APIs.
 
 ## 🚀 Version: v1.0 MVP
 
-### Features (Weekend 1)
-- ✅ Manual portfolio input (ticker, shares, purchase price)
-- ✅ Real-time portfolio valuation
-- ✅ Visual asset allocation (pie charts)
-- ✅ Performance metrics (gain/loss, returns)
-- ✅ Portfolio composition table
-- ✅ Local data persistence
+## ✨ Features
+
+### Portfolio Management
+- 📊 Real-time portfolio tracking with live prices
+- 💰 Support for stocks, crypto, ETFs, commodities, bonds, and loans
+- 📈 Automatic price updates via Alpha Vantage & CoinGecko APIs
+- 🔄 Auto-refresh every 5 minutes (optional)
+- 💾 Import/Export portfolio as JSON
+
+### Analytics & Insights
+- 📉 Performance metrics (Total Value, Return, Gain/Loss)
+- 🏆 Best & Worst performer tracking
+- 📈 Day change calculations
+- 📊 Leverage tracking (Debt/NetWorth ratio)
+- 🎯 Color-coded risk indicators
+- 📊 Asset allocation visualization (pie chart)
+- 📈 Top holdings visualization (bar chart)
+- ↑↓ Price change indicators with arrows
+
+### User Experience
+- ⏰ Auto-refresh with countdown timer
+- 🎨 Professional UI with smooth animations
+- 💫 Loading overlays and progress indicators
+- 🖱️ Hover effects and micro-interactions
+- 📱 Responsive design
+- 🌐 Live deployment on GitHub Pages
+
+### Technical Features
+- 🔌 Dual API integration (stocks & crypto)
+- 💾 Smart caching (5-minute cache)
+- ⚡ Rate limiting compliance
+- 🔄 Automatic fallback to mock data
+- 💻 LocalStorage persistence
+- 🎯 Error handling & recovery
 
 ### Planned Features
 - 🔄 Real-time price API integration

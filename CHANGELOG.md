@@ -2,6 +2,26 @@
 
 All notable changes to Portfolio Tracker will be documented in this file.
 
+## [v1.4.0] - 2026-02-11
+
+### Added
+- Auto-refresh functionality with 5-minute intervals
+- Countdown timer showing next refresh time
+- Toggle button for auto-refresh ON/OFF
+- Visual notification on auto-refresh trigger
+- Enhanced dashboard with performance insights
+- Best Performer card (top gainer with %)
+- Worst Performer card (biggest loser with %)
+- Day Change card (total portfolio change today)
+- Performance cards with gradient backgrounds
+- Real-time day change calculations
+
+### Changed
+- Simplified button layout (removed redundant buttons)
+- Cleaner UI with 4 essential action buttons
+- Dashboard now shows 8 cards (5 main + 3 performance)
+- Better visual hiera
+
 ## [v1.3.2] - 2026-02-10
 
 ### Added
