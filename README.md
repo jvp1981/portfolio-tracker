@@ -6,7 +6,26 @@ A personal investment portfolio tracking dashboard with analytics and AI-powered
 
 This is a progressive web application designed to help investors track, analyze, and optimize their investment portfolios. Built as a learning project to master modern web development with LLM-assisted coding.
 
-## 🚀 Current Version: v1.5.0
+## 🚀 Current Version: v2.0.0-beta
+
+**Latest Update - AI Advisor (Beta):**
+- 🤖 AI Portfolio Advisor with 6 legendary investor styles
+- 💬 Interactive chat interface
+- 🎯 Style-specific investment analysis
+- 📊 Portfolio integration with real-time data
+- 🔄 Quick action buttons for instant insights
+
+**Complete Feature Set:**
+- ✅ Multi-module navigation (Portfolio, AI Advisor, FIRE Calc)
+- ✅ AI Advisor with 6 investment philosophies
+- ✅ Auto-refresh with 5-minute intervals
+- ✅ Performance insights dashboard
+- ✅ Real-time price tracking (dual API)
+- ✅ Professional UI/UX with animations
+
+See [CHANGELOG.md](CHANGELOG.md) for complete version history.
+
+## 🚀 Version: v1.5.0
 
 **Latest Updates:**
 - ✅ Multi-module navigation structure
@@ -53,6 +72,19 @@ See [CHANGELOG.md](CHANGELOG.md) for complete version history.
 - 📈 Automatic price updates via Alpha Vantage & CoinGecko APIs
 - 🔄 Auto-refresh every 5 minutes (optional)
 - 💾 Import/Export portfolio as JSON
+
+### 🤖 AI Portfolio Advisor (NEW - Beta)
+- **6 Legendary Investment Styles:**
+  - 💎 Value/Quality (Buffett, Munger)
+  - 🎯 Contrarian (Tepper, Druckenmiller)
+  - 🌍 Macro/Global (Dalio, PTJ)
+  - 🔢 Quant/Systematic (Simons)
+  - 🚀 Tech/Disruptive (Thiel, Chamath)
+  - 📈 Growth/GARP (Lynch)
+- Chat interface with style-specific insights
+- Portfolio analysis and recommendations
+- Quick action buttons for instant feedback
+- Style preference persistence
 
 ### Analytics & Insights
 - 📉 Performance metrics (Total Value, Return, Gain/Loss)
@@ -152,31 +184,29 @@ portfolio-tracker/
 - Multi-user support
 - Monetization features
 
-## 🗺️ Roadmap (12.02.2025)
+## 🗺️ Roadmap (13.02.2025)
 
 ### ✅ Completed
-- **v1.0.0** - MVP Base (tracking, charts, localStorage)
+- **v1.0.0** - MVP Base
 - **v1.1.0** - Leverage & Export/Import
-- **v1.2.0** - Alpha Vantage API integration
-- **v1.3.0** - CoinGecko integration (dual API)
+- **v1.2.0** - Alpha Vantage API
+- **v1.3.0** - CoinGecko integration
 - **v1.4.0** - Auto-refresh & Performance insights
-- **v1.5.0** - Navigation structure & Suite branding
+- **v1.5.0** - Navigation structure
+- **v2.0.0-beta** - AI Advisor (Mock responses) ← NEW
 
 ### 🚧 In Progress
-- **v2.0.0** - AI Advisor (Coming Soon)
-  - Claude API integration
-  - Portfolio analysis & recommendations
-  - Chat interface
-  - Risk assessment
+- **v2.0.0-final** - Claude API integration
+  - Real AI-powered responses
+  - Streaming support
+  - Multi-turn conversations
 
 ### 📋 Planned
 - **v2.1.0** - FIRE Calculator
-  - Years to FIRE projection
-  - Multiple scenarios
-  - Interactive timeline
-  - Withdrawal strategies
+- **v2.2.0** - Budget Tracker
+- **v2.3.0** - Advanced Features
 
-- **v2.2.0** - Advanced Features
+- **v2.3.0** - Advanced Features
   - Historical performance tracking
   - Backtesting capabilities
   - Custom alerts & notifications

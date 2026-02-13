@@ -2,6 +2,42 @@
 
 All notable changes to Portfolio Tracker Suite will be documented in this file.
 
+## [v2.0.0-beta] - 2026-02-13
+
+### Added - AI Advisor (Beta)
+- 6 legendary investor advisory styles
+  - Value/Quality (Buffett, Munger, Ackman, Marks)
+  - Contrarian/Opportunistic (Tepper, Druckenmiller)
+  - Macro/Global (Dalio, Paul Tudor Jones)
+  - Quant/Systematic (Jim Simons)
+  - Tech/Disruptive (Thiel, Chamath)
+  - Growth/GARP (Peter Lynch)
+- Interactive chat interface with AI advisor
+- Style-specific system prompts and analysis approaches
+- Quick action buttons (Analyze, Risk, Rebalance)
+- Portfolio data integration
+- Mock responses demonstrating each style
+- Style preference persistence (localStorage)
+- Real-time style switching
+- Conversation history tracking
+- Loading indicators and smooth UX
+
+### Technical Implementation
+- AIAdvisor class with complete chat functionality
+- Style-specific prompt engineering
+- Portfolio metrics extraction and formatting
+- HTML escaping for security
+- Error handling and null safety checks
+- Responsive chat interface
+- Message avatars per advisory style
+
+### Coming Soon
+- Claude API integration (real AI responses)
+- Streaming responses
+- Conversation export
+- Multi-turn context retention
+
+
 ## [v1.5.0] - 2026-02-11
 
 ### Added
