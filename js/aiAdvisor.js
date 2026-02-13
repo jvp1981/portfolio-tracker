@@ -152,88 +152,130 @@ class AIAdvisor {
     }
     
     async sendMessage(userMessage) {
-        // Add user message to chat
-        this.addUserMessage(userMessage);
-        
-        // Add loading indicator
-        const loadingId = this.addLoadingMessage();
-        
-        // Get portfolio data
-        const portfolioData = this.getPortfolioData();
-        
-        // Get style-specific system prompt
-        const systemPrompt = this.getSystemPrompt();
-        
-        // Construct full prompt
-        const fullPrompt = this.constructPrompt(userMessage, portfolioData);
-        
-        try {
-            this.isProcessing = true;
+            console.log('📤 Sending message:', userMessage);
             
-            // Call Claude API
-            const response = await this.callClaudeAPI(systemPrompt, fullPrompt);
+            // Add user message to chat
+            this.addUserMessage(userMessage);
             
-            // Remove loading
-            this.removeLoadingMessage(loadingId);
+            // Add loading indicator
+            const loadingId = this.addLoadingMessage();
+            console.log('⏳ Loading indicator added:', loadingId);
             
-            // Add AI response
-            this.addAIMessage(response);
+            // Get portfolio data
+            const portfolioData = this.getPortfolioData();
+            console.log('📊 Portfolio data:', portfolioData);
             
-            // Store in history
-            this.conversationHistory.push({
-                user: userMessage,
-                assistant: response,
-                timestamp: new Date().toISOString()
-            });
+            // Get style-specific system prompt
+            const systemPrompt = this.getSystemPrompt();
+            console.log('🎯 System prompt length:', systemPrompt.length);
             
-        } catch (error) {
-            console.error('Error calling Claude API:', error);
+            // Construct full prompt
+            const fullPrompt = this.constructPrompt(userMessage, portfolioData);
+            console.log('📝 Full prompt constructed');
             
-            // Remove loading
-            this.removeLoadingMessage(loadingId);
-            
-            // Show error message
-            this.addAIMessage(
-                `❌ Sorry, I encountered an error: ${error.message}\n\n` +
-                `Please check your API configuration and try again.`
-            );
-        } finally {
-            this.isProcessing = false;
-        }
-    }
-    
-    getPortfolioData() {
-        const metrics = portfolioManager.calculateMetrics();
-        
-        // Format holdings data
-        const holdings = metrics.positions.map(p => {
-            return `- ${p.ticker} (${p.assetClass}): ${this.formatCurrency(p.currentPrice)} | ${p.returnPct >= 0 ? '+' : ''}${p.returnPct.toFixed(2)}% | Allocation: ${p.allocationPct.toFixed(1)}%`;
-        }).join('\n');
-        
-        // Asset allocation
-        const allocation = {};
-        metrics.positions.forEach(p => {
-            if (!allocation[p.assetClass]) {
-                allocation[p.assetClass] = 0;
+            try {
+                this.isProcessing = true;
+                
+                console.log('🤖 Calling Claude API...');
+                // Call Claude API
+                const response = await this.callClaudeAPI(systemPrompt, fullPrompt);
+                console.log('✅ Response received:', response.substring(0, 50) + '...');
+                
+                // Remove loading
+                this.removeLoadingMessage(loadingId);
+                console.log('🗑️ Loading removed');
+                
+                // Add AI response
+                this.addAIMessage(response);
+                console.log('💬 AI message added');
+                
+                // Store in history
+                this.conversationHistory.push({
+                    user: userMessage,
+                    assistant: response,
+                    timestamp: new Date().toISOString()
+                });
+                
+            } catch (error) {
+                console.error('❌ Error in sendMessage:', error);
+                
+                // Remove loading
+                this.removeLoadingMessage(loadingId);
+                
+                // Show error message
+                this.addAIMessage(
+                    `❌ Sorry, I encountered an error: ${error.message}\n\nPlease check your API configuration and try again.`
+                );
+            } finally {
+                this.isProcessing = false;
+                console.log('✅ Processing complete');
             }
-            allocation[p.assetClass] += p.allocationPct;
-        });
-        
-        const allocationText = Object.entries(allocation)
-            .map(([asset, pct]) => `- ${asset}: ${pct.toFixed(1)}%`)
-            .join('\n');
-        
-        return {
-            totalValue: this.formatCurrency(metrics.totalCurrentValue),
-            totalInvested: this.formatCurrency(metrics.totalInvested),
-            totalReturn: this.formatCurrency(metrics.totalGainLoss),
-            totalReturnPct: metrics.totalReturnPct.toFixed(2),
-            holdingsCount: metrics.holdingsCount,
-            leverage: metrics.leveragePct.toFixed(1),
-            holdings: holdings,
-            allocation: allocationText
-        };
-    }
+        }
+    
+        getPortfolioData() {
+                // Check if portfolioManager exists
+                if (typeof portfolioManager === 'undefined') {
+                    console.error('❌ PortfolioManager not available');
+                    return this.getEmptyPortfolioData();
+                }
+                
+                const metrics = portfolioManager.calculateMetrics();
+                
+                // Safety check for metrics
+                if (!metrics || !metrics.positions) {
+                    console.error('❌ Invalid metrics data');
+                    return this.getEmptyPortfolioData();
+                }
+                
+                // Format holdings data
+                const holdings = metrics.positions.map(p => {
+                    const currentPrice = p.currentPrice || 0;
+                    const returnPct = p.returnPct || 0;
+                    const allocationPct = p.allocationPct || 0;
+                    
+                    return `- ${p.ticker} (${p.assetClass}): ${this.formatCurrency(currentPrice)} | ${returnPct >= 0 ? '+' : ''}${returnPct.toFixed(2)}% | Allocation: ${allocationPct.toFixed(1)}%`;
+                }).join('\n');
+                
+                // Asset allocation
+                const allocation = {};
+                metrics.positions.forEach(p => {
+                    const assetClass = p.assetClass || 'other';
+                    const allocationPct = p.allocationPct || 0;
+                    
+                    if (!allocation[assetClass]) {
+                        allocation[assetClass] = 0;
+                    }
+                    allocation[assetClass] += allocationPct;
+                });
+                
+                const allocationText = Object.entries(allocation)
+                    .map(([asset, pct]) => `- ${asset}: ${pct.toFixed(1)}%`)
+                    .join('\n');
+                
+                return {
+                    totalValue: this.formatCurrency(metrics.totalCurrentValue || 0),
+                    totalInvested: this.formatCurrency(metrics.totalInvested || 0),
+                    totalReturn: this.formatCurrency(metrics.totalGainLoss || 0),
+                    totalReturnPct: (metrics.totalReturnPct || 0).toFixed(2),
+                    holdingsCount: metrics.holdingsCount || 0,
+                    leverage: (metrics.leveragePct || 0).toFixed(1),
+                    holdings: holdings || 'No holdings',
+                    allocation: allocationText || 'No allocation data'
+                };
+            }
+            
+            getEmptyPortfolioData() {
+                return {
+                    totalValue: '$0.00',
+                    totalInvested: '$0.00',
+                    totalReturn: '$0.00',
+                    totalReturnPct: '0.00',
+                    holdingsCount: 0,
+                    leverage: '0.0',
+                    holdings: 'No holdings available',
+                    allocation: 'No allocation data'
+                };
+            }
     
     constructPrompt(userMessage, portfolioData) {
         return `Here is my current portfolio:
