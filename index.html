@@ -266,19 +266,115 @@
                             </div>
                             <!-- End Portfolio View -->
                             
-                            <!-- AI Advisor View (Coming Soon) -->
+                            <!-- AI Advisor View -->
                             <div id="aiAdvisorView" class="view-container">
-                                <div class="coming-soon-placeholder">
-                                    <div class="coming-soon-icon">🤖</div>
-                                    <h2>AI Advisor</h2>
-                                    <p>Get personalized portfolio insights powered by Claude AI</p>
-                                    <div class="coming-soon-features">
-                                        <div class="feature-item">✅ Portfolio analysis</div>
-                                        <div class="feature-item">✅ Rebalancing suggestions</div>
-                                        <div class="feature-item">✅ Risk assessment</div>
-                                        <div class="feature-item">✅ Ask anything about your portfolio</div>
+                                <div class="ai-advisor-container">
+                                    
+                                    <!-- Header -->
+                                    <div class="ai-advisor-header">
+                                        <h2>🤖 AI Portfolio Advisor</h2>
+                                        <p class="ai-advisor-subtitle">Get personalized insights based on legendary investment strategies</p>
                                     </div>
-                                    <p class="coming-soon-eta">Coming in v2.0 • Est. 1-2 weeks</p>
+                                    
+                                    <!-- Style Selector -->
+                                    <section class="advisory-styles-section">
+                                        <h3>Choose Your Advisory Style:</h3>
+                                        <div class="advisory-styles-grid">
+                                            
+                                            <div class="style-card" data-style="value">
+                                                <div class="style-icon">💎</div>
+                                                <div class="style-name">Value / Quality</div>
+                                                <div class="style-investors">Buffett • Munger • Ackman</div>
+                                                <div class="style-description">Focus on moats, intrinsic value, and margin of safety</div>
+                                            </div>
+                                            
+                                            <div class="style-card" data-style="contrarian">
+                                                <div class="style-icon">🎯</div>
+                                                <div class="style-name">Contrarian</div>
+                                                <div class="style-investors">Tepper • Druckenmiller</div>
+                                                <div class="style-description">Hunt asymmetric opportunities in market dislocations</div>
+                                            </div>
+                                            
+                                            <div class="style-card" data-style="macro">
+                                                <div class="style-icon">🌍</div>
+                                                <div class="style-name">Macro / Global</div>
+                                                <div class="style-investors">Dalio • Paul Tudor Jones</div>
+                                                <div class="style-description">Global trends, cycles, and risk-parity approach</div>
+                                            </div>
+                                            
+                                            <div class="style-card" data-style="quant">
+                                                <div class="style-icon">🔢</div>
+                                                <div class="style-name">Quant / Systematic</div>
+                                                <div class="style-investors">Jim Simons</div>
+                                                <div class="style-description">Data-driven, statistical market inefficiencies</div>
+                                            </div>
+                                            
+                                            <div class="style-card" data-style="tech">
+                                                <div class="style-icon">🚀</div>
+                                                <div class="style-name">Tech / Disruptive</div>
+                                                <div class="style-investors">Thiel • Chamath</div>
+                                                <div class="style-description">Zero-to-one innovation and exponential growth</div>
+                                            </div>
+                                            
+                                            <div class="style-card" data-style="growth">
+                                                <div class="style-icon">📈</div>
+                                                <div class="style-name">Growth (GARP)</div>
+                                                <div class="style-investors">Peter Lynch</div>
+                                                <div class="style-description">Quality growth at reasonable prices (PEG < 1)</div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="selected-style-indicator">
+                                            <span class="selected-label">Selected:</span>
+                                            <span class="selected-style-name" id="selectedStyleName">💎 Value / Quality</span>
+                                        </div>
+                                    </section>
+                                    
+                                    <!-- Quick Actions -->
+                                    <section class="quick-actions-section">
+                                        <h3>Quick Analysis:</h3>
+                                        <div class="quick-actions-buttons" id="quickActionsButtons">
+                                            <!-- Buttons will be inserted dynamically based on selected style -->
+                                            <button class="btn btn-primary quick-action-btn" data-action="analyze">
+                                                📊 Analyze Portfolio
+                                            </button>
+                                            <button class="btn btn-secondary quick-action-btn" data-action="risk">
+                                                ⚖️ Risk Assessment
+                                            </button>
+                                            <button class="btn btn-secondary quick-action-btn" data-action="rebalance">
+                                                🎯 Rebalancing Ideas
+                                            </button>
+                                        </div>
+                                    </section>
+                                    
+                                    <!-- Chat Interface -->
+                                    <section class="chat-section">
+                                        <div class="chat-container">
+                                            <div class="chat-messages" id="chatMessages">
+                                                <div class="chat-message ai-message">
+                                                    <div class="message-avatar">💎</div>
+                                                    <div class="message-content">
+                                                        <p>Hello! I'm your Value Investing advisor. I'll analyze your portfolio through the lens of Warren Buffett and Charlie Munger.</p>
+                                                        <p>Choose a quick action above, or ask me anything about your portfolio.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="chat-input-container">
+                                                <textarea 
+                                                    id="chatInput" 
+                                                    class="chat-input" 
+                                                    placeholder="Ask me anything about your portfolio..."
+                                                    rows="2"
+                                                ></textarea>
+                                                <button id="sendChatBtn" class="btn btn-primary send-btn">
+                                                    Send
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
                                 </div>
                             </div>
                             
