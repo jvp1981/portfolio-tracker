@@ -604,219 +604,140 @@ Please analyze and provide insights based on your investment philosophy.`;
         }
         
         getMockResponses() {
-            return {
-                value: `Looking at your portfolio through a value investing lens:
+                return {
+                    value: `Looking at your portfolio through a value investing lens:
 
-    **The Good:**
-    Your portfolio shows strong returns (+31.95%), which is excellent. The mix of quality stocks (AAPL, GOOGL) and commodities (GLD) provides some diversification.
+        **The Good:**
+        Your portfolio shows strong returns (+31.95%), which is excellent. The mix of quality stocks (AAPL, GOOGL) and commodities (GLD) provides some diversification.
 
-    **Areas for Consideration:**
+        **Areas for Consideration:**
 
-    1. **Cryptocurrency Concentration (40%):** This is significantly higher than what Buffett or Munger would recommend. Crypto lacks intrinsic value and durable moats. Consider: Can you estimate BTC's value 10 years from now based on cash flows? If not, it may be speculation rather than investment.
+        1. **Cryptocurrency Concentration (40%):** This is significantly higher than what Buffett or Munger would recommend. Crypto lacks intrinsic value and durable moats. Consider: Can you estimate BTC value 10 years from now based on cash flows? If not, it may be speculation rather than investment.
 
-    2. **Circle of Competence:** Do you deeply understand the competitive advantages of each holding? The best investments are in businesses you can thoroughly analyze.
+        2. **Circle of Competence:** Do you deeply understand the competitive advantages of each holding? The best investments are in businesses you can thoroughly analyze.
 
-    3. **Margin of Safety:** At current valuations, are you buying wonderful businesses at fair prices? Or fair businesses at wonderful prices?
+        3. **Margin of Safety:** At current valuations, are you buying wonderful businesses at fair prices? Or fair businesses at wonderful prices?
 
-    **Suggestion:** Consider reducing crypto exposure to 10-15% and reallocating to quality businesses with:
-    - Strong competitive moats
-    - Predictable cash flows
-    - Excellent management
-    - Trading below intrinsic value
+        **Suggestion:** Consider reducing crypto exposure to 10-15% and reallocating to quality businesses with strong competitive moats, predictable cash flows, excellent management, and trading below intrinsic value.
 
-    Remember: "Price is what you pay, value is what you get." Focus on business quality first, price second.`,
+        Remember: Price is what you pay, value is what you get. Focus on business quality first, price second.`,
 
-                contrarian: `Analyzing your portfolio with a contrarian lens:
+                    contrarian: `Analyzing your portfolio with a contrarian lens:
 
-    **Current Positioning:**
-    +31.95% return shows you've caught some momentum, but let's look deeper at market positioning and opportunities.
+        **Current Positioning:**
+        +31.95% return shows you have caught some momentum, but let us look deeper at market positioning and opportunities.
 
-    **Observations:**
+        **Observations:**
 
-    1. **Tech Concentration (45%):** AAPL and GOOGL are consensus "safe" positions. Everyone owns them. Where's the edge? Consider: Are these crowded trades vulnerable to mean reversion?
+        1. **Tech Concentration (45%):** AAPL and GOOGL are consensus safe positions. Everyone owns them. Where is the edge? Consider: Are these crowded trades vulnerable to mean reversion?
 
-    2. **Crypto at 40%:** Interesting timing. If you bought during the panic lows, excellent. If you're chasing recent gains, question your entry point.
+        2. **Crypto at 40%:** Interesting timing. If you bought during the panic lows, excellent. If you are chasing recent gains, question your entry point.
 
-    3. **Missing Opportunities:** Where's the blood in the streets? What sectors are everyone avoiding that could offer 3:1 risk/reward?
+        3. **Missing Opportunities:** Where is the blood in the streets? What sectors are everyone avoiding that could offer 3:1 risk/reward?
 
-    **Contrarian Ideas:**
+        **Contrarian Ideas:**
 
-    - **Energy/Commodities:** Only 15% in GLD. What about unloved energy names or other hard assets?
-    - **Emerging Markets:** Any exposure to beaten-down EM opportunities?
-    - **Financials:** Banks trading below book value after rate volatility?
+        Energy/Commodities: Only 15% in GLD. What about unloved energy names or other hard assets? Emerging Markets: Any exposure to beaten-down EM opportunities? Financials: Banks trading below book value after rate volatility?
 
-    **Action:** Identify 1-2 sectors with extreme negative sentiment but recovering fundamentals. Size positions for asymmetry - risk 1 to make 3+.
+        **Action:** Identify 1-2 sectors with extreme negative sentiment but recovering fundamentals. Size positions for asymmetry - risk 1 to make 3+.
 
-    The best opportunities are where others fear to tread.`,
+        The best opportunities are where others fear to tread.`,
 
-                macro: `Portfolio Analysis - Macro Regime Perspective:
+                    macro: `Portfolio Analysis - Macro Regime Perspective:
 
-    **Current Environment Assessment:**
-    We're in a regime of persistent inflation concerns, geopolitical tensions, and monetary policy uncertainty.
+        **Current Environment Assessment:**
+        We are in a regime of persistent inflation concerns, geopolitical tensions, and monetary policy uncertainty.
 
-    **Your Portfolio Through Regime Lens:**
+        **Your Portfolio Through Regime Lens:**
 
-    **Strengths:**
-    - Commodities (GLD 15%): Good inflation hedge
-    - Tech (45%): Benefits from productivity gains
-    - Crypto (40%): Potential alternative store of value
+        **Strengths:**
+        Commodities (GLD 15%): Good inflation hedge. Tech (45%): Benefits from productivity gains. Crypto (40%): Potential alternative store of value.
 
-    **Vulnerabilities:**
+        **Vulnerabilities:**
 
-    1. **Correlation Risk:** Tech + Crypto = ~85% in risk assets with positive correlation. In a risk-off scenario, both decline together.
+        1. **Correlation Risk:** Tech + Crypto = 85% in risk assets with positive correlation. In a risk-off scenario, both decline together.
 
-    2. **Missing Diversification:**
-       - No exposure to bonds/fixed income
-       - No currency diversification
-       - No defensive/counter-cyclical assets
-       - Limited geographic diversification
+        2. **Missing Diversification:** No exposure to bonds/fixed income. No currency diversification. No defensive/counter-cyclical assets. Limited geographic diversification.
 
-    3. **Regime Scenarios:**
-       - **Stagflation:** Current portfolio 50% exposed (need more real assets)
-       - **Deflationary Bust:** 0% protected (need bonds, cash)
-       - **Growth Boom:** 85% exposed (well positioned)
+        3. **Regime Scenarios:** Stagflation: Current portfolio 50% exposed (need more real assets). Deflationary Bust: 0% protected (need bonds, cash). Growth Boom: 85% exposed (well positioned).
 
-    **All-Weather Adjustment:**
+        **All-Weather Adjustment:**
 
-    Consider rebalancing to:
-    - 30% Stocks (quality, diversified)
-    - 20% Bonds (duration, inflation-protected)
-    - 25% Commodities/Real Assets
-    - 15% Crypto/Alternative
-    - 10% Cash/Short-term
+        Consider rebalancing to: 30% Stocks (quality, diversified), 20% Bonds (duration, inflation-protected), 25% Commodities/Real Assets, 15% Crypto/Alternative, 10% Cash/Short-term.
 
-    This balances across regimes while maintaining upside.`,
+        This balances across regimes while maintaining upside.`,
 
-                quant: `Quantitative Portfolio Analysis:
+                    quant: `Quantitative Portfolio Analysis:
 
-    **Performance Metrics:**
-    - Total Return: +31.95% (1 period)
-    - Holdings: 5
-    - Concentration: High (top 2 = 85%)
+        **Performance Metrics:**
+        Total Return: +31.95% (1 period). Holdings: 5. Concentration: High (top 2 = 85%).
 
-    **Factor Exposure Analysis:**
+        **Factor Exposure Analysis:**
 
-    **Momentum:** HIGH
-    - BTC +0.53%, ETH +0.99% suggest positive momentum
-    - AAPL +0.99%, GOOGL +0.24% showing strength
-    - Risk: Momentum reversal vulnerability
+        **Momentum:** HIGH - BTC +0.53%, ETH +0.99% suggest positive momentum. AAPL +0.99%, GOOGL +0.24% showing strength. Risk: Momentum reversal vulnerability.
 
-    **Value:** UNDEFINED
-    - Insufficient data on P/E, P/B ratios
-    - Cannot assess value factor exposure
-    - Recommendation: Add fundamental metrics
+        **Value:** UNDEFINED - Insufficient data on P/E, P/B ratios. Cannot assess value factor exposure. Recommendation: Add fundamental metrics.
 
-    **Quality:** MODERATE
-    - AAPL, GOOGL = high quality (strong balance sheets, ROE)
-    - Crypto = non-traditional quality metrics
+        **Quality:** MODERATE - AAPL, GOOGL = high quality (strong balance sheets, ROE). Crypto = non-traditional quality metrics.
 
-    **Volatility:** HIGH
-    - 40% crypto allocation = elevated portfolio volatility
-    - Estimated portfolio vol: 35-45% annualized
-    - Sharpe ratio: ~0.7-0.9 (assuming Rf = 4%)
+        **Volatility:** HIGH - 40% crypto allocation = elevated portfolio volatility. Estimated portfolio vol: 35-45% annualized. Sharpe ratio: 0.7-0.9 (assuming Rf = 4%).
 
-    **Correlation Structure:**
-    ```
-            AAPL  GOOGL  BTC   ETH   GLD
-    AAPL    1.0   0.8   0.4   0.4   0.2
-    GOOGL   0.8   1.0   0.4   0.4   0.2
-    BTC     0.4   0.4   1.0   0.9   0.3
-    ETH     0.4   0.4   0.9   1.0   0.3
-    GLD     0.2   0.2   0.3   0.3   1.0
-    ```
+        **Risk Concentration:**
+        BTC-ETH correlation (0.9) = cluster risk. Tech correlation (0.8) = sector concentration.
 
-    **Risk Concentration:**
-    - BTC-ETH correlation (0.9) = cluster risk
-    - Tech correlation (0.8) = sector concentration
+        **Systematic Recommendation:**
+        Add uncorrelated assets (correlation less than 0.3): Short-term bonds, REITs, International equities, Managed futures. Target: Reduce portfolio volatility to 20-25% while maintaining returns.`,
 
-    **Systematic Recommendation:**
-    Add uncorrelated assets (correlation < 0.3):
-    - Short-term bonds
-    - REITs
-    - International equities
-    - Managed futures
+                    tech: `Portfolio Review - Disruptive Innovation Lens:
 
-    Target: Reduce portfolio volatility to 20-25% while maintaining returns.`,
+        **Exponential Exposure:**
+        Good foundational positioning in AAPL and GOOGL - these are technology moats with network effects. Crypto allocation shows understanding of paradigm shifts.
 
-                tech: `Portfolio Review - Disruptive Innovation Lens:
+        **Critical Questions:**
 
-    **Exponential Exposure:**
-    Good foundational positioning in AAPL and GOOGL - these are technology moats with network effects. Crypto allocation shows understanding of paradigm shifts.
+        1. **Zero-to-One Potential:** Where is your exposure to companies creating NEW markets vs competing in existing ones? AAPL/GOOGL = mature (sustaining innovation). Crypto = potentially zero-to-one (new monetary paradigm).
 
-    **Critical Questions:**
+        2. **Power Law Distribution:** Your portfolio is too evenly weighted. Tech investing follows power laws - one winner can return 100x while others fail. Where is your asymmetric bet?
 
-    1. **Zero-to-One Potential:** Where's your exposure to companies creating NEW markets vs competing in existing ones?
-       - AAPL/GOOGL = mature (sustaining innovation)
-       - Crypto = potentially zero-to-one (new monetary paradigm)
+        3. **Missing Disruption:** AI Revolution: Where is exposure to foundational AI companies? Biotech: Gene editing, longevity companies? Space/Energy: New frontier opportunities? Web3: Beyond just crypto holdings?
 
-    2. **Power Law Distribution:** Your portfolio is too evenly weighted. Tech investing follows power laws - one winner can return 100x while others fail. Where's your asymmetric bet?
+        **Disruptive Gaps:**
 
-    3. **Missing Disruption:**
-       - **AI Revolution:** Where's exposure to foundational AI companies?
-       - **Biotech:** Gene editing, longevity companies?
-       - **Space/Energy:** New frontier opportunities?
-       - **Web3:** Beyond just crypto holdings?
+        You are overweight MATURE tech (AAPL, GOOGL) and underweight EMERGING tech.
 
-    **Disruptive Gaps:**
+        **Reframe:**
+        20% Mature tech (keep winners, let them run). 30% Emerging tech (AI, robotics, biotech). 20% Crypto/Web3 (infrastructure, not just tokens). 20% Commodities (real assets for balance). 10% Cash (dry powder for opportunities).
 
-    You're overweight MATURE tech (AAPL, GOOGL) and underweight EMERGING tech.
+        Think: What will 10x in 10 years? Position accordingly.`,
 
-    **Reframe:**
-    - 20% Mature tech (keep winners, let them run)
-    - 30% Emerging tech (AI, robotics, biotech)
-    - 20% Crypto/Web3 (infrastructure, not just tokens)
-    - 20% Commodities (real assets for balance)
-    - 10% Cash (dry powder for opportunities)
+                    growth: `Portfolio Analysis - GARP Perspective:
 
-    Think: What will 10x in 10 years? Position accordingly.`,
+        **Current Holdings Review:**
 
-                growth: `Portfolio Analysis - GARP Perspective:
+        Let us evaluate through the PEG lens (PE / Growth Rate):
 
-    **Current Holdings Review:**
+        **AAPL:** Assume P/E around 30, Growth around 8%. PEG = 3.75 (EXPENSIVE). Great company, but price reflects that. Rating: HOLD (quality, but not reasonable price).
 
-    Let's evaluate through the PEG lens (PE / Growth Rate):
+        **GOOGL:** Assume P/E around 25, Growth around 12%. PEG = 2.08 (FAIR to EXPENSIVE). Better value than AAPL relatively. Rating: HOLD.
 
-    **AAPL (assume P/E ~30, Growth ~8%):**
-    - PEG = 3.75 (EXPENSIVE)
-    - Great company, but price reflects that
-    - Rating: HOLD (quality, but not "reasonable")
+        **Crypto (BTC, ETH):** No earnings = Cannot calculate PEG. Pure speculation vs GARP approach. Rating: SPECULATIVE (reduce to under 10%).
 
-    **GOOGL (assume P/E ~25, Growth ~12%):**
-    - PEG = 2.08 (FAIR to EXPENSIVE)
-    - Better value than AAPL relatively
-    - Rating: HOLD
+        **GLD:** No earnings growth. Defensive holding. Rating: TACTICAL (maintain 10-15%).
 
-    **Crypto (BTC, ETH):**
-    - No earnings = Can't calculate PEG
-    - Pure speculation vs GARP approach
-    - Rating: SPECULATIVE (reduce to <10%)
+        **Growth Quality Assessment:**
 
-    **GLD:**
-    - No earnings growth
-    - Defensive holding
-    - Rating: TACTICAL (maintain 10-15%)
+        Your growth exposure (Tech 45%) is priced for perfection. You are paying premium multiples for moderate growth.
 
-    **Growth Quality Assessment:**
+        **GARP Opportunity Search:**
 
-    Your "growth" exposure (Tech 45%) is priced for perfection. You're paying premium multiples for moderate growth.
+        Look for mid-cap companies growing 15-25% annually, trading at P/E of 15-20 (PEG under 1.3), with strong competitive positions and understandable business models.
 
-    **GARP Opportunity Search:**
+        **Suggestions:**
+        Reduce mega-cap tech to 25%. Add 3-4 mid-cap growth companies with PEG under 1. Keep crypto under 10% (too speculative for GARP). Target portfolio PEG of 1.0-1.5.
 
-    Look for:
-    - Mid-cap companies growing 15-25% annually
-    - Trading at P/E of 15-20 (PEG < 1.3)
-    - Strong competitive positions
-    - Understandable business models
-
-    **Suggestions:**
-    - Reduce mega-cap tech to 25%
-    - Add 3-4 mid-cap growth companies with PEG < 1
-    - Keep crypto under 10% (too speculative for GARP)
-    - Target portfolio PEG of 1.0-1.5
-
-    Remember: Growth at a reasonable price, not growth at any price.`
-            };
-        }
+        Remember: Growth at a reasonable price, not growth at any price.`
+                };
+            }
     }
 
     // Initialize AI Advisor when DOM is ready
