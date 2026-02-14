@@ -304,16 +304,61 @@ Please analyze and provide insights based on your investment philosophy.`;
     }
     
     async callClaudeAPI(systemPrompt, userPrompt) {
-        // For now, return mock response
-        // You'll replace this with actual API call
-        
-        return new Promise((resolve) => {
-            setTimeout(() => {
+            // Check if we should use real API
+            const useRealAPI = settingsManager && settingsManager.hasApiKey();
+            
+            if (!useRealAPI) {
+                // Use mock responses
+                console.log('📝 Using mock response (no API key configured)');
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const mockResponses = this.getMockResponses();
+                        const response = mockResponses[this.selectedStyle] || mockResponses.value;
+                        resolve(response);
+                    }, 1500);
+                });
+            }
+            
+            // Use real API via Vercel backend
+            console.log('🤖 Calling Claude API via Vercel backend...');
+            
+            try {
+                // Determine API endpoint
+                const isProduction = window.location.hostname.includes('vercel.app');
+                const apiEndpoint = isProduction 
+                    ? '/api/chat'  // Vercel production
+                    : 'http://localhost:3000/api/chat';  // Local testing
+                
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        systemPrompt: systemPrompt,
+                        userPrompt: userPrompt
+                    })
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'API request failed');
+                }
+                
+                const data = await response.json();
+                console.log('✅ Claude API response received');
+                
+                return data.response;
+                
+            } catch (error) {
+                console.error('❌ Error calling Claude API:', error);
+                
+                // Fallback to mock on error
+                console.log('📝 Falling back to mock response');
                 const mockResponses = this.getMockResponses();
-                const response = mockResponses[this.selectedStyle] || mockResponses.value;
-                resolve(response);
-            }, 1500);
-        });
+                return mockResponses[this.selectedStyle] || mockResponses.value;
+            }
+        }
         
         /* UNCOMMENT WHEN YOU HAVE API KEY:
         

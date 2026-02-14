@@ -426,26 +426,19 @@
                         <div class="settings-section">
                             <h3>🤖 AI Advisor Configuration</h3>
                             <p class="settings-description">
-                                Enter your Anthropic API key to enable real AI-powered portfolio analysis.
-                                Your key is stored locally in your browser and never sent to our servers.
+                                AI Advisor is powered by Claude API through our secure backend.
+                                Toggle below to enable real AI responses (requires backend deployment).
                             </p>
                             
                             <div class="form-group">
-                                <label for="apiKeyInput">
-                                    Anthropic API Key
-                                    <a href="https://console.anthropic.com/settings/keys" target="_blank" class="help-link">
-                                        (Get your key)
-                                    </a>
+                                <label>
+                                    <input type="checkbox" id="useRealAPI" style="margin-right: 0.5rem;">
+                                    Use Real AI Responses (via backend)
                                 </label>
-                                <input 
-                                    type="password" 
-                                    id="apiKeyInput" 
-                                    placeholder="sk-ant-api03-..."
-                                    autocomplete="off"
-                                >
-                                <button type="button" id="toggleApiKeyVisibility" class="btn-icon" title="Show/Hide">
-                                    👁️
-                                </button>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                                    When enabled, uses Claude API through Vercel backend.
+                                    When disabled, shows demo responses.
+                                </p>
                             </div>
                             
                             <div class="api-key-status" id="apiKeyStatus">
@@ -454,15 +447,13 @@
                             </div>
                             
                             <div class="settings-actions">
-                                <button id="saveApiKey" class="btn btn-primary">Save API Key</button>
-                                <button id="testApiKey" class="btn btn-secondary">Test Connection</button>
-                                <button id="clearApiKey" class="btn btn-secondary">Clear Key</button>
+                                <button id="testApiKey" class="btn btn-primary">Test Backend Connection</button>
                             </div>
                             
                             <div class="settings-note">
-                                <strong>Note:</strong> Using mock responses by default. Configure your API key above to get real AI-powered insights.
+                                <strong>Backend Architecture:</strong> AI responses are processed through a secure Vercel serverless function. Your API key is stored securely in backend environment variables, never exposed to the browser.
                                 <br><br>
-                                <strong>Privacy:</strong> Your API key is stored only in your browser's localStorage and is never transmitted to our servers.
+                                <strong>Demo Mode:</strong> Disable real API to see example responses showcasing each investment style's unique perspective.
                             </div>
                         </div>
                     </div>
