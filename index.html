@@ -414,53 +414,63 @@
         <script src="js/app.js"></script>
         <script src="js/settings.js"></script>
         <script src="js/aiAdvisor.js"></script>
+
         <!-- Settings Modal -->
-            <div id="settingsModal" class="modal hidden">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>⚙️ Settings</h2>
-                        <button class="modal-close" id="closeSettings">&times;</button>
-                    </div>
-                    
-                    <div class="modal-body">
-                        <div class="settings-section">
-                            <h3>🤖 AI Advisor Configuration</h3>
-                            <p class="settings-description">
-                                AI Advisor is powered by Claude API through our secure backend.
-                                Toggle below to enable real AI responses (requires backend deployment).
+        <div id="settingsModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>⚙️ Settings</h2>
+                    <button class="modal-close" id="closeSettings">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3>🤖 AI Advisor Configuration</h3>
+                        <p class="settings-description">
+                            AI Advisor is powered by Claude API through our secure backend.
+                            Toggle below to enable real AI responses (requires backend deployment).
+                        </p>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="useRealAPI" style="margin-right: 0.5rem;">
+                                Use Real AI Responses (via backend)
+                            </label>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                                When enabled, uses Claude API through Vercel backend.
+                                When disabled, shows demo responses.
                             </p>
-                            
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" id="useRealAPI" style="margin-right: 0.5rem;">
-                                    Use Real AI Responses (via backend)
-                                </label>
-                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
-                                    When enabled, uses Claude API through Vercel backend.
-                                    When disabled, shows demo responses.
-                                </p>
-                            </div>
-                            
-                            <div class="api-key-status" id="apiKeyStatus">
-                                <span class="status-indicator" id="statusIndicator">⚠️</span>
-                                <span id="statusText">No API key configured</span>
-                            </div>
-                            
-                            <div class="settings-actions">
-                                <button id="testApiKey" class="btn btn-primary">Test Backend Connection</button>
-                            </div>
-                            
-                            <div class="settings-note">
-                                <strong>Backend Architecture:</strong> AI responses are processed through a secure Vercel serverless function. Your API key is stored securely in backend environment variables, never exposed to the browser.
-                                <br><br>
-                                <strong>Demo Mode:</strong> Disable real API to see example responses showcasing each investment style's unique perspective.
-                            </div>
+                        </div>
+                        
+                        <div class="api-key-status" id="apiKeyStatus">
+                            <span class="status-indicator" id="statusIndicator">⚠️</span>
+                            <span id="statusText">No API key configured</span>
+                        </div>
+                        
+                        <div class="settings-actions">
+                            <button id="testApiKey" class="btn btn-primary">Test Backend Connection</button>
+                        </div>
+                        
+                        <div class="settings-note">
+                            <strong>Backend Architecture:</strong> AI responses are processed through a secure Vercel serverless function. Your API key is stored securely in backend environment variables, never exposed to the browser.
+                            <br><br>
+                            <strong>Demo Mode:</strong> Disable real API to see example responses showcasing each investment style's unique perspective.
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Footer -->
-            <footer class="footer">
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p>
+                    Portfolio Tracker Suite v1.5.0 | 
+                    Built with ❤️ by Alda & Javier | 
+                    Powered by <a href="https://www.anthropic.com/claude" target="_blank" style="color: inherit; text-decoration: underline;">Claude AI</a>
+                </p>
+            </div>
+        </footer>
+
     </body>
-</html>
+    </html>
