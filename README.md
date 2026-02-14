@@ -6,7 +6,33 @@ A personal investment portfolio tracking dashboard with analytics and AI-powered
 
 This is a progressive web application designed to help investors track, analyze, and optimize their investment portfolios. Built as a learning project to master modern web development with LLM-assisted coding.
 
-## 🚀 Current Version: v2.0.0-beta
+## 🚀 Current Version: v2.0.0 (Production Release)
+
+**🎉 MAJOR RELEASE - AI Portfolio Advisor**
+
+**Latest Features:**
+- 🤖 AI Portfolio Advisor with 6 legendary investment styles
+- 💬 Interactive chat interface powered by Claude API
+- 🔒 Secure Vercel serverless backend
+- 📊 Real-time personalized portfolio analysis
+- 🎯 Style-specific investment insights
+- 🔄 Real/Mock response toggle
+
+**Complete Feature Set:**
+- ✅ Portfolio Tracker with real-time prices
+- ✅ AI Advisor (6 investment philosophies)
+- ✅ Auto-refresh functionality
+- ✅ Performance insights dashboard
+- ✅ Multi-module navigation
+- ✅ Professional UI/UX
+
+**Production URLs:**
+- Frontend: https://jvp1981.github.io/portfolio-tracker/
+- Backend: https://portfolio-tracker-[username].vercel.app/
+
+See [CHANGELOG.md](CHANGELOG.md) for complete version history.
+
+## 🚀 Version: v2.0.0-beta
 
 **Latest Update - AI Advisor (Beta):**
 - 🤖 AI Portfolio Advisor with 6 legendary investor styles
