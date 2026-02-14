@@ -779,11 +779,7 @@ class App {
             
             console.log(`📍 Navigated to: ${view}`);
         }
-        
-        handleSettings() {
-            alert('⚙️ Settings\n\nComing soon:\n• Theme preferences\n• API key management\n• Export settings\n• Notification preferences');
-        }
-            
+
 }  // ← Esta llave cierra la clase App
 
 // Initialize app when DOM is ready
