@@ -383,7 +383,6 @@ Please analyze and provide insights based on your investment philosophy.`;
         return data.content[0].text;
         
         */
-    }
     
     // UI Helper Methods
     
