@@ -305,11 +305,13 @@ Please analyze and provide insights based on your investment philosophy.`;
     
     async callClaudeAPI(systemPrompt, userPrompt) {
             // Check if we should use real API
-            const useRealAPI = settingsManager && settingsManager.hasApiKey();
+            const useRealAPI = localStorage.getItem('use_real_api') === 'true';
+            
+            console.log('🔍 API Mode:', useRealAPI ? 'REAL API' : 'MOCK');
             
             if (!useRealAPI) {
                 // Use mock responses
-                console.log('📝 Using mock response (no API key configured)');
+                console.log('📝 Using mock response (toggle is OFF)');
                 return new Promise((resolve) => {
                     setTimeout(() => {
                         const mockResponses = this.getMockResponses();
@@ -321,15 +323,11 @@ Please analyze and provide insights based on your investment philosophy.`;
             
             // Use real API via Vercel backend
             console.log('🤖 Calling Claude API via Vercel backend...');
+            console.log('📊 Portfolio data being sent:', userPrompt.substring(0, 200) + '...');
             
             try {
-                // Determine API endpoint
-                const isProduction = window.location.hostname.includes('vercel.app');
-                const apiEndpoint = isProduction 
-                    ? '/api/chat'  // Vercel production
-                    : 'http://localhost:3000/api/chat';  // Local testing
-                
-                const response = await fetch(apiEndpoint, {
+                // Call Vercel API endpoint
+                const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -346,12 +344,13 @@ Please analyze and provide insights based on your investment philosophy.`;
                 }
                 
                 const data = await response.json();
-                console.log('✅ Claude API response received');
+                console.log('✅ Claude API response received:', data.response.substring(0, 100) + '...');
                 
                 return data.response;
                 
             } catch (error) {
                 console.error('❌ Error calling Claude API:', error);
+                alert('⚠️ API Error\n\nFalling back to demo response.\n\nError: ' + error.message);
                 
                 // Fallback to mock on error
                 console.log('📝 Falling back to mock response');
@@ -359,30 +358,6 @@ Please analyze and provide insights based on your investment philosophy.`;
                 return mockResponses[this.selectedStyle] || mockResponses.value;
             }
         }
-        
-        /* UNCOMMENT WHEN YOU HAVE API KEY:
-        
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': 'YOUR_API_KEY_HERE',
-                'anthropic-version': '2023-06-01'
-            },
-            body: JSON.stringify({
-                model: 'claude-sonnet-4-20250514',
-                max_tokens: 1024,
-                system: systemPrompt,
-                messages: [
-                    { role: 'user', content: userPrompt }
-                ]
-            })
-        });
-        
-        const data = await response.json();
-        return data.content[0].text;
-        
-        */
     
     // UI Helper Methods
     
