@@ -1978,6 +1978,10 @@ main.container {
     margin-bottom: var(--spacing-md);
 }
 
+.fire-chart-container canvas {
+    max-height: 400px;
+}
+
 /* Scenario Analysis */
 .scenario-analysis {
     background: var(--bg-card);
