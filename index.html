@@ -390,27 +390,32 @@
                                     <section class="current-portfolio-section">
                                         <h3>📊 Current Portfolio</h3>
                                         <div class="portfolio-summary-grid">
-                                            <div class="portfolio-summary-card">
+                                            <div class="portfolio-summary-card editable">
                                                 <div class="summary-label">Bitcoin</div>
-                                                <div class="summary-value" id="currentBTC">$0</div>
+                                                <input type="number" id="currentBTC" class="portfolio-edit-input" value="0" min="0" step="1000">
                                             </div>
-                                            <div class="portfolio-summary-card">
+                                            <div class="portfolio-summary-card editable">
                                                 <div class="summary-label">Stocks/ETFs</div>
-                                                <div class="summary-value" id="currentStocks">$0</div>
+                                                <input type="number" id="currentStocks" class="portfolio-edit-input" value="0" min="0" step="1000">
                                             </div>
-                                            <div class="portfolio-summary-card">
+                                            <div class="portfolio-summary-card editable">
                                                 <div class="summary-label">Bonds</div>
-                                                <div class="summary-value" id="currentBonds">$0</div>
+                                                <input type="number" id="currentBonds" class="portfolio-edit-input" value="0" min="0" step="1000">
                                             </div>
-                                            <div class="portfolio-summary-card">
-                                                <div class="summary-label">Other</div>
-                                                <div class="summary-value" id="currentOther">$0</div>
+                                            <div class="portfolio-summary-card editable">
+                                                <div class="summary-label">Cash/Stablecoins</div>
+                                                <input type="number" id="currentCash" class="portfolio-edit-input" value="0" min="0" step="1000">
+                                            </div>
+                                            <div class="portfolio-summary-card editable">
+                                                <div class="summary-label">Other Assets</div>
+                                                <input type="number" id="currentOther" class="portfolio-edit-input" value="0" min="0" step="1000">
                                             </div>
                                             <div class="portfolio-summary-card total">
                                                 <div class="summary-label">Total Portfolio</div>
                                                 <div class="summary-value" id="currentTotal">$0</div>
                                             </div>
                                         </div>
+                                        <p class="portfolio-hint">💡 Values auto-loaded from Portfolio. Edit to override.</p>
                                     </section>
                                     
                                     <!-- FIRE Parameters -->
@@ -462,6 +467,10 @@
                                     <!-- Contribution Allocation -->
                                     <section class="allocation-section">
                                         <h3>💰 Monthly Contribution Allocation</h3>
+                                        <p class="section-description">
+                                            How you'll invest your monthly savings. This determines future portfolio composition.
+                                            Must total 100%.
+                                        </p>
                                         <div class="allocation-grid">
                                             <div class="allocation-item">
                                                 <label for="allocBTC">Bitcoin (%)</label>
@@ -490,18 +499,18 @@
                                         <div class="model-grid">
                                             <!-- Bitcoin Model -->
                                             <div class="model-group">
-                                                <label>Bitcoin Growth Model</label>
-                                                <div class="radio-group">
-                                                    <label class="radio-label">
-                                                        <input type="radio" name="btcModel" value="conservative" checked>
-                                                        <span>Conservative (S-curve)</span>
-                                                    </label>
-                                                    <label class="radio-label">
-                                                        <input type="radio" name="btcModel" value="powerlaw">
-                                                        <span>Power Law</span>
-                                                    </label>
-                                                </div>
-                                                <small class="param-hint">Conservative: 25%→12%→6% | Power Law: historical regression</small>
+                                                <label for="btcGrowthModel">Bitcoin Growth Model</label>
+                                                <select id="btcGrowthModel" class="param-select">
+                                                    <optgroup label="Conservative (S-Curve)">
+                                                        <option value="conservative-high" selected>Early Years: High Growth (30% CAGR)</option>
+                                                        <option value="conservative-mid">Middle Years: Moderate (15% CAGR)</option>
+                                                        <option value="conservative-low">Mature: Low (8% CAGR)</option>
+                                                    </optgroup>
+                                                    <optgroup label="Advanced Models">
+                                                        <option value="powerlaw">Power Law (Historical Regression)</option>
+                                                    </optgroup>
+                                                </select>
+                                                <small class="param-hint">S-curve models adoption phases. Power Law uses historical data.</small>
                                             </div>
                                             
                                             <!-- Stocks Model -->

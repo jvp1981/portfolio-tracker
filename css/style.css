@@ -1670,6 +1670,42 @@ main.container {
     color: white;
 }
 
+.portfolio-summary-card.editable {
+    background: white;
+    border: 2px dashed var(--border-color);
+}
+
+.portfolio-edit-input {
+    width: 100%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-align: center;
+    border: none;
+    background: transparent;
+    padding: var(--spacing-xs);
+}
+
+.portfolio-edit-input:focus {
+    outline: none;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.portfolio-hint {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin-top: var(--spacing-sm);
+    text-align: center;
+}
+
+.section-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
+}
+
 /* Parameters Section */
 .fire-params-section,
 .allocation-section,
