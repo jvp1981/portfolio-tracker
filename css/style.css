@@ -1972,10 +1972,33 @@ main.container {
     margin-bottom: var(--spacing-lg);
 }
 
-.fire-chart-container h4 {
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.chart-header h4 {
     font-size: 1rem;
     color: var(--text-primary);
-    margin-bottom: var(--spacing-md);
+    margin: 0;
+}
+
+.timeline-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 0.875rem;
+}
+
+.timeline-select {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.875rem;
 }
 
 .fire-chart-container canvas {

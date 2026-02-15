@@ -640,7 +640,22 @@
                                         
                                         <!-- Timeline Graph -->
                                         <div class="fire-chart-container">
-                                            <h4>Portfolio Growth Timeline</h4>
+                                            <div class="chart-header">
+                                                <h4>Portfolio Growth Timeline</h4>
+                                                <div class="timeline-controls">
+                                                    <label>Time Horizon:</label>
+                                                    <select id="timelineYears" class="timeline-select">
+                                                        <option value="10">10 Years</option>
+                                                        <option value="20">20 Years</option>
+                                                        <option value="30">30 Years</option>
+                                                        <option value="50" selected>50 Years</option>
+                                                    </select>
+                                                    <label style="margin-left: 1rem;">
+                                                        <input type="checkbox" id="logScale" checked>
+                                                        Log Scale
+                                                    </label>
+                                                </div>
+                                            </div>
                                             <canvas id="fireTimelineChart"></canvas>
                                         </div>
                                         

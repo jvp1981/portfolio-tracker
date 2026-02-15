@@ -75,6 +75,25 @@ class FIRECalculator {
                 }
             });
         });
+
+        // Timeline controls
+        const timelineSelect = document.getElementById('timelineYears');
+        if (timelineSelect) {
+            timelineSelect.addEventListener('change', () => {
+                if (this.results.fireNumbers) {
+                    this.drawTimelineChart();
+                }
+            });
+        }
+
+        const logScaleCheckbox = document.getElementById('logScale');
+        if (logScaleCheckbox) {
+            logScaleCheckbox.addEventListener('change', () => {
+                if (this.results.fireNumbers) {
+                    this.drawTimelineChart();
+                }
+            });
+        }
     }
     
     loadPortfolioData() {
@@ -252,16 +271,19 @@ class FIRECalculator {
     }
     
     validateInputs() {
-        // Check allocation totals 100%
-        const allocTotal = 
-            this.inputs.allocation.btc +
-            this.inputs.allocation.stocks +
-            this.inputs.allocation.bonds +
-            this.inputs.allocation.cash;
-        
-        if (Math.abs(allocTotal - 1.0) > 0.01) {
-            alert('⚠️ Contribution allocation must total 100%\n\nCurrent: ' + (allocTotal * 100).toFixed(1) + '%');
-            return false;
+        // If no monthly contribution, skip allocation check
+        if (this.inputs.monthlyContribution > 0) {
+            // Check allocation totals 100%
+            const allocTotal = 
+                this.inputs.allocation.btc +
+                this.inputs.allocation.stocks +
+                this.inputs.allocation.bonds +
+                this.inputs.allocation.cash;
+            
+            if (Math.abs(allocTotal - 1.0) > 0.01) {
+                alert('⚠️ Contribution allocation must total 100%\n\nCurrent: ' + (allocTotal * 100).toFixed(1) + '%');
+                return false;
+            }
         }
         
         // Check annual expenses > 0
@@ -300,52 +322,45 @@ class FIRECalculator {
     }
     
     calculateYearsToFIRE(targetAmount) {
-        let portfolio = this.inputs.currentPortfolio.total;
-        let years = 0;
-        const maxYears = 100;
-        
-        // Starting allocation (current portfolio %)
-        let btcPct = this.inputs.currentPortfolio.btc / portfolio || 0;
-        let stocksPct = this.inputs.currentPortfolio.stocks / portfolio || 0;
-        let bondsPct = this.inputs.currentPortfolio.bonds / portfolio || 0;
-        let cashPct = this.inputs.currentPortfolio.cash / portfolio || 0;
-        
-        while (portfolio < targetAmount && years < maxYears) {
-            years++;
+            let years = 0;
+            const maxYears = 100;
             
-            // Apply growth to each asset class
-            const btcGrowth = this.getBitcoinReturn(years);
-            const stocksGrowth = this.inputs.stocksReturn;
-            const bondsGrowth = this.inputs.bondsReturn;
-            const cashGrowth = 0; // Cash doesn't grow
+            // Start with current portfolio breakdown
+            let btcValue = this.inputs.currentPortfolio.btc;
+            let stocksValue = this.inputs.currentPortfolio.stocks;
+            let bondsValue = this.inputs.currentPortfolio.bonds;
+            let cashValue = this.inputs.currentPortfolio.cash;
+            let otherValue = this.inputs.currentPortfolio.other;
             
-            // Grow existing portfolio
-            portfolio = portfolio * (
-                (btcPct * (1 + btcGrowth)) +
-                (stocksPct * (1 + stocksGrowth)) +
-                (bondsPct * (1 + bondsGrowth)) +
-                (cashPct * (1 + cashGrowth))
-            );
+            let totalPortfolio = btcValue + stocksValue + bondsValue + cashValue + otherValue;
             
-            // Add monthly contributions
-            const annualContribution = this.inputs.monthlyContribution * 12;
-            portfolio += annualContribution;
+            while (totalPortfolio < targetAmount && years < maxYears) {
+                years++;
+                
+                // Apply growth to each asset class
+                const btcReturn = this.getBitcoinReturn(years);
+                const stocksReturn = this.inputs.stocksReturn;
+                const bondsReturn = this.inputs.bondsReturn;
+                
+                // Grow each asset
+                btcValue *= (1 + btcReturn);
+                stocksValue *= (1 + stocksReturn);
+                bondsValue *= (1 + bondsReturn);
+                // Cash and other don't grow
+                
+                // Add monthly contributions
+                const annualContribution = this.inputs.monthlyContribution * 12;
+                btcValue += annualContribution * this.inputs.allocation.btc;
+                stocksValue += annualContribution * this.inputs.allocation.stocks;
+                bondsValue += annualContribution * this.inputs.allocation.bonds;
+                cashValue += annualContribution * this.inputs.allocation.cash;
+                
+                // Recalculate total
+                totalPortfolio = btcValue + stocksValue + bondsValue + cashValue + otherValue;
+            }
             
-            // Adjust allocation based on new contributions
-            const btcContrib = annualContribution * this.inputs.allocation.btc;
-            const stocksContrib = annualContribution * this.inputs.allocation.stocks;
-            const bondsContrib = annualContribution * this.inputs.allocation.bonds;
-            const cashContrib = annualContribution * this.inputs.allocation.cash;
-            
-            // Recalculate percentages
-            btcPct = ((btcPct * portfolio - annualContribution) + btcContrib) / portfolio;
-            stocksPct = ((stocksPct * portfolio - annualContribution) + stocksContrib) / portfolio;
-            bondsPct = ((bondsPct * portfolio - annualContribution) + bondsContrib) / portfolio;
-            cashPct = ((cashPct * portfolio - annualContribution) + cashContrib) / portfolio;
+            return years >= maxYears ? maxYears : years;
         }
-        
-        return years >= maxYears ? maxYears : years;
-    }
     
     getBitcoinReturn(year) {
         const model = this.inputs.btcGrowthModel;
@@ -649,13 +664,21 @@ class FIRECalculator {
             window.fireTimelineChartInstance.destroy();
         }
         
-        const timeline = this.results.timeline;
-        const fireYear = this.results.fireNumbers.yearsToFIRE;
+        // Get selected time horizon
+        const yearsSelect = document.getElementById('timelineYears');
+        const maxYears = yearsSelect ? parseInt(yearsSelect.value) : 50;
+        
+        // Get log scale preference
+        const logScaleCheckbox = document.getElementById('logScale');
+        const useLogScale = logScaleCheckbox ? logScaleCheckbox.checked : true;
+        
+        // Filter timeline to selected years
+        const timeline = this.results.timeline.slice(0, maxYears + 1);
         
         window.fireTimelineChartInstance = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: timeline.map(t => `Year ${t.year}`),
+                labels: timeline.map(t => t.year === 0 ? 'Now' : `Year ${t.year}`),
                 datasets: [{
                     label: 'Total Portfolio',
                     data: timeline.map(t => t.total),
@@ -670,7 +693,8 @@ class FIRECalculator {
                     borderColor: 'rgb(16, 185, 129)',
                     borderWidth: 2,
                     borderDash: [5, 5],
-                    fill: false
+                    fill: false,
+                    pointRadius: 0
                 }]
             },
             options: {
@@ -690,7 +714,9 @@ class FIRECalculator {
                 },
                 scales: {
                     y: {
-                        beginAtZero: true,
+                        type: useLogScale ? 'logarithmic' : 'linear',
+                        beginAtZero: !useLogScale,
+                        min: useLogScale ? 1000 : undefined,
                         ticks: {
                             callback: (value) => this.formatCurrency(value, true)
                         }
