@@ -377,19 +377,292 @@
                                 </div>
                             </div>
                             
-                            <!-- FIRE Calculator View (Coming Soon) -->
+                            <!-- FIRE Calculator View -->
                             <div id="fireCalcView" class="view-container">
-                                <div class="coming-soon-placeholder">
-                                    <div class="coming-soon-icon">🔥</div>
-                                    <h2>FIRE Calculator</h2>
-                                    <p>Calculate your path to Financial Independence, Retire Early</p>
-                                    <div class="coming-soon-features">
-                                        <div class="feature-item">✅ Years to FIRE projection</div>
-                                        <div class="feature-item">✅ Multiple scenarios</div>
-                                        <div class="feature-item">✅ Interactive timeline</div>
-                                        <div class="feature-item">✅ Withdrawal strategies</div>
+                                <div class="fire-calc-container">
+                                    
+                                    <!-- Header -->
+                                    <div class="fire-calc-header">
+                                        <h2>🔥 FIRE Calculator</h2>
+                                        <p class="fire-calc-subtitle">Calculate your path to Financial Independence, Retire Early</p>
                                     </div>
-                                    <p class="coming-soon-eta">Coming in v2.1 • Est. 2-3 weeks</p>
+                                    
+                                    <!-- Current Portfolio Summary (Auto-loaded) -->
+                                    <section class="current-portfolio-section">
+                                        <h3>📊 Current Portfolio</h3>
+                                        <div class="portfolio-summary-grid">
+                                            <div class="portfolio-summary-card">
+                                                <div class="summary-label">Bitcoin</div>
+                                                <div class="summary-value" id="currentBTC">$0</div>
+                                            </div>
+                                            <div class="portfolio-summary-card">
+                                                <div class="summary-label">Stocks/ETFs</div>
+                                                <div class="summary-value" id="currentStocks">$0</div>
+                                            </div>
+                                            <div class="portfolio-summary-card">
+                                                <div class="summary-label">Bonds</div>
+                                                <div class="summary-value" id="currentBonds">$0</div>
+                                            </div>
+                                            <div class="portfolio-summary-card">
+                                                <div class="summary-label">Other</div>
+                                                <div class="summary-value" id="currentOther">$0</div>
+                                            </div>
+                                            <div class="portfolio-summary-card total">
+                                                <div class="summary-label">Total Portfolio</div>
+                                                <div class="summary-value" id="currentTotal">$0</div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <!-- FIRE Parameters -->
+                                    <section class="fire-params-section">
+                                        <h3>⚙️ FIRE Parameters</h3>
+                                        
+                                        <div class="params-grid">
+                                            <!-- Personal Info -->
+                                            <div class="param-group">
+                                                <label for="currentAge">Current Age</label>
+                                                <input type="number" id="currentAge" min="18" max="100" value="35" class="param-input">
+                                            </div>
+                                            
+                                            <div class="param-group">
+                                                <label for="targetAge">Target FIRE Age (optional)</label>
+                                                <input type="number" id="targetAge" min="18" max="100" placeholder="Auto-calculate" class="param-input">
+                                            </div>
+                                            
+                                            <!-- Expenses & Contributions -->
+                                            <div class="param-group">
+                                                <label for="annualExpenses">Annual Expenses (€)</label>
+                                                <input type="number" id="annualExpenses" min="0" value="40000" class="param-input">
+                                                <small class="param-hint">How much you need per year in retirement</small>
+                                            </div>
+                                            
+                                            <div class="param-group">
+                                                <label for="monthlyContribution">Monthly Contribution (€)</label>
+                                                <input type="number" id="monthlyContribution" min="0" value="2500" class="param-input">
+                                                <small class="param-hint">How much you save each month</small>
+                                            </div>
+                                            
+                                            <!-- Withdrawal Settings -->
+                                            <div class="param-group">
+                                                <label for="withdrawalRate">Withdrawal Rate (%)</label>
+                                                <div class="slider-container">
+                                                    <input type="range" id="withdrawalRate" min="3" max="6" step="0.5" value="4" class="param-slider">
+                                                    <span class="slider-value" id="withdrawalRateValue">4.0%</span>
+                                                </div>
+                                                <small class="param-hint">Traditional FIRE uses 4%</small>
+                                            </div>
+                                            
+                                            <div class="param-group">
+                                                <label for="withdrawalStartYear">Withdrawal Start Year</label>
+                                                <input type="number" id="withdrawalStartYear" min="2025" max="2100" value="2050" class="param-input">
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <!-- Contribution Allocation -->
+                                    <section class="allocation-section">
+                                        <h3>💰 Monthly Contribution Allocation</h3>
+                                        <div class="allocation-grid">
+                                            <div class="allocation-item">
+                                                <label for="allocBTC">Bitcoin (%)</label>
+                                                <input type="number" id="allocBTC" min="0" max="100" value="30" class="alloc-input">
+                                            </div>
+                                            <div class="allocation-item">
+                                                <label for="allocStocks">Stocks (%)</label>
+                                                <input type="number" id="allocStocks" min="0" max="100" value="50" class="alloc-input">
+                                            </div>
+                                            <div class="allocation-item">
+                                                <label for="allocBonds">Bonds (%)</label>
+                                                <input type="number" id="allocBonds" min="0" max="100" value="15" class="alloc-input">
+                                            </div>
+                                            <div class="allocation-item">
+                                                <label for="allocCash">Cash (%)</label>
+                                                <input type="number" id="allocCash" min="0" max="100" value="5" class="alloc-input">
+                                            </div>
+                                        </div>
+                                        <div class="allocation-total" id="allocationTotal">Total: 100%</div>
+                                    </section>
+                                    
+                                    <!-- Growth Models -->
+                                    <section class="growth-models-section">
+                                        <h3>📈 Growth Models</h3>
+                                        
+                                        <div class="model-grid">
+                                            <!-- Bitcoin Model -->
+                                            <div class="model-group">
+                                                <label>Bitcoin Growth Model</label>
+                                                <div class="radio-group">
+                                                    <label class="radio-label">
+                                                        <input type="radio" name="btcModel" value="conservative" checked>
+                                                        <span>Conservative (S-curve)</span>
+                                                    </label>
+                                                    <label class="radio-label">
+                                                        <input type="radio" name="btcModel" value="powerlaw">
+                                                        <span>Power Law</span>
+                                                    </label>
+                                                </div>
+                                                <small class="param-hint">Conservative: 25%→12%→6% | Power Law: historical regression</small>
+                                            </div>
+                                            
+                                            <!-- Stocks Model -->
+                                            <div class="model-group">
+                                                <label for="stocksAllocation">Stocks Portfolio</label>
+                                                <select id="stocksAllocation" class="param-select">
+                                                    <option value="60/40">60/40 (Stocks/Bonds) - ~7% CAGR</option>
+                                                    <option value="80/20" selected>80/20 (Stocks/Bonds) - ~8.5% CAGR</option>
+                                                    <option value="100stocks">100% Stocks - ~10% CAGR</option>
+                                                    <option value="custom">Custom Return</option>
+                                                </select>
+                                                <input type="number" id="customStocksReturn" min="0" max="30" step="0.5" value="8.5" 
+                                                       class="param-input" style="display: none;" placeholder="% CAGR">
+                                            </div>
+                                            
+                                            <!-- Bonds Return -->
+                                            <div class="model-group">
+                                                <label for="bondsReturn">Bonds Expected Return (%)</label>
+                                                <input type="number" id="bondsReturn" min="0" max="15" step="0.5" value="4.0" class="param-input">
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <!-- Inflation & Tax -->
+                                    <section class="inflation-tax-section">
+                                        <h3>💸 Inflation & Taxes</h3>
+                                        
+                                        <div class="params-grid">
+                                            <!-- Inflation Model -->
+                                            <div class="param-group">
+                                                <label>Inflation Model</label>
+                                                <div class="radio-group">
+                                                    <label class="radio-label">
+                                                        <input type="radio" name="inflationModel" value="cpi" checked>
+                                                        <span>CPI (~2%)</span>
+                                                    </label>
+                                                    <label class="radio-label">
+                                                        <input type="radio" name="inflationModel" value="truflation">
+                                                        <span>Truflation (~8%)</span>
+                                                    </label>
+                                                    <label class="radio-label">
+                                                        <input type="radio" name="inflationModel" value="custom">
+                                                        <span>Custom</span>
+                                                    </label>
+                                                </div>
+                                                <input type="number" id="customInflation" min="0" max="30" step="0.5" value="2.0" 
+                                                       class="param-input" style="display: none;" placeholder="% per year">
+                                            </div>
+                                            
+                                            <!-- Capital Gains Tax -->
+                                            <div class="param-group">
+                                                <label for="capitalGainsTax">Capital Gains Tax (%)</label>
+                                                <input type="number" id="capitalGainsTax" min="0" max="50" step="1" value="23" class="param-input">
+                                                <small class="param-hint">Applied to gains when withdrawing</small>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <!-- Withdrawal Strategy -->
+                                    <section class="withdrawal-strategy-section">
+                                        <h3>🎯 Withdrawal Strategy</h3>
+                                        
+                                        <div class="radio-group">
+                                            <label class="radio-label">
+                                                <input type="radio" name="withdrawalStrategy" value="proportional" checked>
+                                                <span>Proportional (maintain allocation)</span>
+                                            </label>
+                                            <label class="radio-label">
+                                                <input type="radio" name="withdrawalStrategy" value="stocksFirst">
+                                                <span>Stocks First (preserve BTC)</span>
+                                            </label>
+                                            <label class="radio-label">
+                                                <input type="radio" name="withdrawalStrategy" value="btcFirst">
+                                                <span>BTC First (spend gains early)</span>
+                                            </label>
+                                            <label class="radio-label">
+                                                <input type="radio" name="withdrawalStrategy" value="custom">
+                                                <span>Custom (advanced)</span>
+                                            </label>
+                                        </div>
+                                    </section>
+                                    
+                                    <!-- Action Buttons -->
+                                    <section class="fire-actions-section">
+                                        <button id="calculateFIRE" class="btn btn-primary btn-large">
+                                            🔥 Calculate FIRE
+                                        </button>
+                                        <button id="runSimulation" class="btn btn-secondary btn-large">
+                                            📊 Run Monte Carlo Simulation
+                                        </button>
+                                    </section>
+                                    
+                                    <!-- Results Section (Hidden by default) -->
+                                    <section id="fireResults" class="fire-results-section hidden">
+                                        
+                                        <!-- Key Metrics -->
+                                        <h3>📈 Your FIRE Numbers</h3>
+                                        <div class="fire-metrics-grid">
+                                            <div class="fire-metric-card">
+                                                <div class="metric-icon">🎯</div>
+                                                <div class="metric-label">Years to FIRE</div>
+                                                <div class="metric-value" id="yearsToFIRE">--</div>
+                                                <div class="metric-detail" id="fireYear">--</div>
+                                            </div>
+                                            
+                                            <div class="fire-metric-card">
+                                                <div class="metric-icon">💰</div>
+                                                <div class="metric-label">Required Portfolio</div>
+                                                <div class="metric-value" id="requiredPortfolio">--</div>
+                                                <div class="metric-detail">25x annual expenses</div>
+                                            </div>
+                                            
+                                            <div class="fire-metric-card">
+                                                <div class="metric-icon">📅</div>
+                                                <div class="metric-label">Annual Withdrawal</div>
+                                                <div class="metric-value" id="annualWithdrawal">--</div>
+                                                <div class="metric-detail" id="monthlyWithdrawal">--</div>
+                                            </div>
+                                            
+                                            <div class="fire-metric-card">
+                                                <div class="metric-icon">📊</div>
+                                                <div class="metric-label">Success Rate</div>
+                                                <div class="metric-value" id="successRate">--%</div>
+                                                <div class="metric-detail">Monte Carlo (10k runs)</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Timeline Graph -->
+                                        <div class="fire-chart-container">
+                                            <h4>Portfolio Growth Timeline</h4>
+                                            <canvas id="fireTimelineChart"></canvas>
+                                        </div>
+                                        
+                                        <!-- Allocation Evolution -->
+                                        <div class="fire-chart-container">
+                                            <h4>Asset Allocation Over Time</h4>
+                                            <canvas id="allocationEvolutionChart"></canvas>
+                                        </div>
+                                        
+                                        <!-- Scenario Analysis -->
+                                        <div class="scenario-analysis">
+                                            <h4>📉 Scenario Analysis</h4>
+                                            <div class="scenario-grid">
+                                                <div class="scenario-card">
+                                                    <div class="scenario-title">Bear Market (-30%)</div>
+                                                    <div class="scenario-impact" id="bearImpact">--</div>
+                                                </div>
+                                                <div class="scenario-card">
+                                                    <div class="scenario-title">Severe Crash (-50%)</div>
+                                                    <div class="scenario-impact" id="crashImpact">--</div>
+                                                </div>
+                                                <div class="scenario-card">
+                                                    <div class="scenario-title">BTC Collapse (-80%)</div>
+                                                    <div class="scenario-impact" id="btcCrashImpact">--</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </section>
+                                    
                                 </div>
                             </div>
                             
