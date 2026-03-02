@@ -437,40 +437,61 @@ class App {
         
         emptyState.classList.add('hidden');
         
-        tbody.innerHTML = metrics.positions.map(position => {
-            const allocationPct = metrics.totalCurrentValue > 0 
-                ? (position.currentValue / metrics.totalCurrentValue * 100).toFixed(1)
-                : 0;
-            
-            return `
-                <tr>
-                    <td class="ticker-cell">${position.ticker}</td>
-                    <td>${this.formatAssetClass(position.assetClass)}</td>
-                    <td>${this.formatNumber(position.shares)}</td>
-                    <td>${this.formatCurrency(position.purchasePrice)}</td>
-                    <td>${this.formatCurrency(position.currentPrice)}</td>
-                    <td>${this.formatCurrency(position.costBasis)}</td>
-                    <td>
-                                            <div class="price-with-change">
-                                                <span class="price-main">${this.formatCurrency(position.currentPrice)}</span>
-                                                ${this.renderPriceChange(position)}
-                                            </div>
-                                        </td>
-                    <td class="${position.gainLoss >= 0 ? 'positive' : 'negative'}">
-                        ${position.gainLoss >= 0 ? '+' : ''}${this.formatCurrency(position.gainLoss)}
-                    </td>
-                    <td class="${position.returnPct >= 0 ? 'positive' : 'negative'}">
-                        ${position.returnPct >= 0 ? '+' : ''}${position.returnPct.toFixed(2)}%
-                    </td>
-                    <td>${allocationPct}%</td>
-                    <td>
-                        <button class="btn btn-danger" onclick="app.handleRemovePosition('${position.id}')">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            `;
-        }).join('');
+        const positionsHTML = metrics.positions.map(position => {
+                    const allocationPct = metrics.totalCurrentValue > 0 
+                        ? (position.currentValue / metrics.totalCurrentValue * 100).toFixed(1)
+                        : 0;
+                    
+                    return `
+                        <tr>
+                            <td class="ticker-cell">${position.ticker}</td>
+                            <td>${this.formatAssetClass(position.assetClass)}</td>
+                            <td>${this.formatNumber(position.shares)}</td>
+                            <td>${this.formatCurrency(position.purchasePrice)}</td>
+                            <td>${this.formatCurrency(position.currentValue)}</td>
+                            <td>${this.formatCurrency(position.costBasis)}</td>
+                            <td>
+                                <div class="price-with-change">
+                                    <span class="price-main">${this.formatCurrency(position.currentPrice)}</span>
+                                    ${this.renderPriceChange(position)}
+                                </div>
+                            </td>
+                            <td class="${position.gainLoss >= 0 ? 'positive' : 'negative'}">
+                                ${position.gainLoss >= 0 ? '+' : ''}${this.formatCurrency(position.gainLoss)}
+                            </td>
+                            <td class="${position.returnPct >= 0 ? 'positive' : 'negative'}">
+                                ${position.returnPct >= 0 ? '+' : ''}${position.returnPct.toFixed(2)}%
+                            </td>
+                            <td>${allocationPct}%</td>
+                            <td>
+                                <button class="btn btn-danger" onclick="app.handleRemovePosition('${position.id}')">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+                
+                // Add totals row
+                const totalsRow = `
+                    <tr class="totals-row">
+                        <td colspan="3"><strong>TOTAL</strong></td>
+                        <td><strong>${this.formatCurrency(metrics.totalInvested)}</strong></td>
+                        <td><strong>${this.formatCurrency(metrics.totalCurrentValue)}</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td class="${metrics.totalGainLoss >= 0 ? 'positive' : 'negative'}">
+                            <strong>${metrics.totalGainLoss >= 0 ? '+' : ''}${this.formatCurrency(metrics.totalGainLoss)}</strong>
+                        </td>
+                        <td class="${metrics.totalReturnPct >= 0 ? 'positive' : 'negative'}">
+                            <strong>${metrics.totalReturnPct >= 0 ? '+' : ''}${metrics.totalReturnPct.toFixed(2)}%</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                `;
+                
+                tbody.innerHTML = positionsHTML + totalsRow;
     }
 
     // Utility formatters

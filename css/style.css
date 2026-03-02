@@ -2054,3 +2054,24 @@ main.container {
         width: 100%;
     }
 }
+
+/* Portfolio Totals Row */
+.totals-row {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    border-top: 3px solid var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 700;
+}
+
+.totals-row td {
+    padding: var(--spacing-md) var(--spacing-sm);
+    font-size: 1.05rem;
+}
+
+.totals-row .positive {
+    color: var(--success-color);
+}
+
+.totals-row .negative {
+    color: var(--danger-color);
+}
