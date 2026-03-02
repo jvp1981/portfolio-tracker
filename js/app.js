@@ -446,16 +446,16 @@ class App {
                         <tr>
                             <td class="ticker-cell">${position.ticker}</td>
                             <td>${this.formatAssetClass(position.assetClass)}</td>
-                            <td>${this.formatNumber(position.shares)}</td>
-                            <td>${this.formatCurrency(position.purchasePrice)}</td>
-                            <td>${this.formatCurrency(position.currentValue)}</td>
-                            <td>${this.formatCurrency(position.costBasis)}</td>
-                            <td>
-                                <div class="price-with-change">
-                                    <span class="price-main">${this.formatCurrency(position.currentPrice)}</span>
-                                    ${this.renderPriceChange(position)}
-                                </div>
-                            </td>
+                           <td>${this.formatNumber(position.shares)}</td>
+                           <td>${this.formatCurrency(position.purchasePrice)}</td>
+                           <td>
+                               <div class="price-with-change">
+                                   <span class="price-main">${this.formatCurrency(position.currentPrice)}</span>
+                                   ${this.renderPriceChange(position)}
+                               </div>
+                           </td>
+                           <td>${this.formatCurrency(position.costBasis)}</td>
+                           <td>${this.formatCurrency(position.currentValue)}</td>
                             <td class="${position.gainLoss >= 0 ? 'positive' : 'negative'}">
                                 ${position.gainLoss >= 0 ? '+' : ''}${this.formatCurrency(position.gainLoss)}
                             </td>
@@ -476,10 +476,9 @@ class App {
                 const totalsRow = `
                     <tr class="totals-row">
                         <td colspan="3"><strong>TOTAL</strong></td>
+                        <td></td>
                         <td><strong>${this.formatCurrency(metrics.totalInvested)}</strong></td>
                         <td><strong>${this.formatCurrency(metrics.totalCurrentValue)}</strong></td>
-                        <td></td>
-                        <td></td>
                         <td class="${metrics.totalGainLoss >= 0 ? 'positive' : 'negative'}">
                             <strong>${metrics.totalGainLoss >= 0 ? '+' : ''}${this.formatCurrency(metrics.totalGainLoss)}</strong>
                         </td>
